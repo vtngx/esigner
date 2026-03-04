@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// list of models
+model User {
+  id            String      @id @default(uuid())
+  walletAddress String      @unique
+  nonce         String?
+  createdAt     DateTime    @default(now())
+  documents     Document[]
+  signatures    Signature[]
+}
+
+model Document {
+  id               String         @id @default(uuid())
+  name             String
+  storageUrl       String
+  documentHash     String         @unique
+  ownerId          String
+  owner            User           @relation(fields: [ownerId], references: [id])
+  status           DocumentStatus @default(DRAFT)
+  signature        Signature?
+  blockchainTxHash String?
+  anchoredAt       DateTime?
+  createdAt        DateTime       @default(now())
+}
+
+model Signature {
+  id           String   @id @default(uuid())
+  documentId   String   @unique
+  document     Document @relation(fields: [documentId], references: [id])
+  signerId     String
+  signer       User     @relation(fields: [signerId], references: [id])
+  signatureHex String
+  signedAt     DateTime @default(now())
+}
+
+enum DocumentStatus {
+  DRAFT
+  SIGNED
+  ANCHORED
+}
