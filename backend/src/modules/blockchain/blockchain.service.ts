@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
 import { ethers } from 'ethers';
-import * as abi from '../../../../blockchain/artifacts/contracts/DocumentAnchor.sol/DocumentAnchor.json'
+import { Injectable } from '@nestjs/common';
+import * as abi from '../../../../blockchain/artifacts/contracts/SignatureAnchor.sol/SignatureAnchor.json';
 
 @Injectable()
 export class BlockchainService {
@@ -25,31 +25,35 @@ export class BlockchainService {
     );
   }
 
-  async anchorDocument(docId: string, documentHash: string) {
+  async ensureContractExists() {
+    const code = await this.provider.getCode(
+      process.env.CONTRACT_ADDRESS!,
+    );
+    if (code === '0x') {
+      throw new Error('Contract not deployed at address');
+    }
+  }
+
+  async anchorRoot(root: string) {
     try {
-      const tx = await this.contract.anchor(documentHash);
+      await this.ensureContractExists();
+      const tx = await this.contract.anchor(root);
       const receipt = await tx.wait();
-
-      // Verify on-chain state
-      const anchoredTimestamp =
-        await this.contract.anchoredAt(documentHash);
-
-      if (!anchoredTimestamp || anchoredTimestamp == 0) {
-        throw new Error('Blockchain verification failed');
-      }
-
-      return {
-        txHash: receipt.hash,
-        anchoredAt: Number(anchoredTimestamp),
-      };
-    } catch (e) {
-      console.error(`Failed to anchor document ${docId}`, e);
+      return receipt.hash;
+    } catch (error) {
+      console.error('Error anchoring root:', error);
       return null;
     }
   }
 
-  async isAnchored(documentHash: string): Promise<boolean> {
-    const result = await this.contract.isAnchored(documentHash);
-    return result || false;
+  async verifyRoot(root: string): Promise<boolean> {
+    try {
+      await this.ensureContractExists();
+      const result = await this.contract.verify(root);
+      return result;
+    } catch (error) {
+      console.error('Error verifying root:', error);
+      return false;
+    }
   }
 }

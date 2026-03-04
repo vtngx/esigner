@@ -31,6 +31,7 @@ export type DocumentMinAggregateOutputType = {
   documentHash: string | null
   ownerId: string | null
   status: $Enums.DocumentStatus | null
+  merkleRoot: string | null
   blockchainTxHash: string | null
   anchoredAt: Date | null
   createdAt: Date | null
@@ -43,6 +44,7 @@ export type DocumentMaxAggregateOutputType = {
   documentHash: string | null
   ownerId: string | null
   status: $Enums.DocumentStatus | null
+  merkleRoot: string | null
   blockchainTxHash: string | null
   anchoredAt: Date | null
   createdAt: Date | null
@@ -55,6 +57,7 @@ export type DocumentCountAggregateOutputType = {
   documentHash: number
   ownerId: number
   status: number
+  merkleRoot: number
   blockchainTxHash: number
   anchoredAt: number
   createdAt: number
@@ -69,6 +72,7 @@ export type DocumentMinAggregateInputType = {
   documentHash?: true
   ownerId?: true
   status?: true
+  merkleRoot?: true
   blockchainTxHash?: true
   anchoredAt?: true
   createdAt?: true
@@ -81,6 +85,7 @@ export type DocumentMaxAggregateInputType = {
   documentHash?: true
   ownerId?: true
   status?: true
+  merkleRoot?: true
   blockchainTxHash?: true
   anchoredAt?: true
   createdAt?: true
@@ -93,6 +98,7 @@ export type DocumentCountAggregateInputType = {
   documentHash?: true
   ownerId?: true
   status?: true
+  merkleRoot?: true
   blockchainTxHash?: true
   anchoredAt?: true
   createdAt?: true
@@ -178,6 +184,7 @@ export type DocumentGroupByOutputType = {
   documentHash: string
   ownerId: string
   status: $Enums.DocumentStatus
+  merkleRoot: string | null
   blockchainTxHash: string | null
   anchoredAt: Date | null
   createdAt: Date
@@ -211,11 +218,12 @@ export type DocumentWhereInput = {
   documentHash?: Prisma.StringFilter<"Document"> | string
   ownerId?: Prisma.StringFilter<"Document"> | string
   status?: Prisma.EnumDocumentStatusFilter<"Document"> | $Enums.DocumentStatus
+  merkleRoot?: Prisma.StringNullableFilter<"Document"> | string | null
   blockchainTxHash?: Prisma.StringNullableFilter<"Document"> | string | null
   anchoredAt?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  signature?: Prisma.XOR<Prisma.SignatureNullableScalarRelationFilter, Prisma.SignatureWhereInput> | null
+  signers?: Prisma.SignerListRelationFilter
 }
 
 export type DocumentOrderByWithRelationInput = {
@@ -225,11 +233,12 @@ export type DocumentOrderByWithRelationInput = {
   documentHash?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  merkleRoot?: Prisma.SortOrderInput | Prisma.SortOrder
   blockchainTxHash?: Prisma.SortOrderInput | Prisma.SortOrder
   anchoredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   owner?: Prisma.UserOrderByWithRelationInput
-  signature?: Prisma.SignatureOrderByWithRelationInput
+  signers?: Prisma.SignerOrderByRelationAggregateInput
 }
 
 export type DocumentWhereUniqueInput = Prisma.AtLeast<{
@@ -242,11 +251,12 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   storageUrl?: Prisma.StringFilter<"Document"> | string
   ownerId?: Prisma.StringFilter<"Document"> | string
   status?: Prisma.EnumDocumentStatusFilter<"Document"> | $Enums.DocumentStatus
+  merkleRoot?: Prisma.StringNullableFilter<"Document"> | string | null
   blockchainTxHash?: Prisma.StringNullableFilter<"Document"> | string | null
   anchoredAt?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  signature?: Prisma.XOR<Prisma.SignatureNullableScalarRelationFilter, Prisma.SignatureWhereInput> | null
+  signers?: Prisma.SignerListRelationFilter
 }, "id" | "documentHash">
 
 export type DocumentOrderByWithAggregationInput = {
@@ -256,6 +266,7 @@ export type DocumentOrderByWithAggregationInput = {
   documentHash?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  merkleRoot?: Prisma.SortOrderInput | Prisma.SortOrder
   blockchainTxHash?: Prisma.SortOrderInput | Prisma.SortOrder
   anchoredAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -274,6 +285,7 @@ export type DocumentScalarWhereWithAggregatesInput = {
   documentHash?: Prisma.StringWithAggregatesFilter<"Document"> | string
   ownerId?: Prisma.StringWithAggregatesFilter<"Document"> | string
   status?: Prisma.EnumDocumentStatusWithAggregatesFilter<"Document"> | $Enums.DocumentStatus
+  merkleRoot?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
   blockchainTxHash?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
   anchoredAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Document"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
@@ -285,11 +297,12 @@ export type DocumentCreateInput = {
   storageUrl: string
   documentHash: string
   status?: $Enums.DocumentStatus
+  merkleRoot?: string | null
   blockchainTxHash?: string | null
   anchoredAt?: Date | string | null
   createdAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutDocumentsInput
-  signature?: Prisma.SignatureCreateNestedOneWithoutDocumentInput
+  signers?: Prisma.SignerCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateInput = {
@@ -299,10 +312,11 @@ export type DocumentUncheckedCreateInput = {
   documentHash: string
   ownerId: string
   status?: $Enums.DocumentStatus
+  merkleRoot?: string | null
   blockchainTxHash?: string | null
   anchoredAt?: Date | string | null
   createdAt?: Date | string
-  signature?: Prisma.SignatureUncheckedCreateNestedOneWithoutDocumentInput
+  signers?: Prisma.SignerUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUpdateInput = {
@@ -311,11 +325,12 @@ export type DocumentUpdateInput = {
   storageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   documentHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  merkleRoot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blockchainTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anchoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
-  signature?: Prisma.SignatureUpdateOneWithoutDocumentNestedInput
+  signers?: Prisma.SignerUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateInput = {
@@ -325,10 +340,11 @@ export type DocumentUncheckedUpdateInput = {
   documentHash?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  merkleRoot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blockchainTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anchoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  signature?: Prisma.SignatureUncheckedUpdateOneWithoutDocumentNestedInput
+  signers?: Prisma.SignerUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateManyInput = {
@@ -338,6 +354,7 @@ export type DocumentCreateManyInput = {
   documentHash: string
   ownerId: string
   status?: $Enums.DocumentStatus
+  merkleRoot?: string | null
   blockchainTxHash?: string | null
   anchoredAt?: Date | string | null
   createdAt?: Date | string
@@ -349,6 +366,7 @@ export type DocumentUpdateManyMutationInput = {
   storageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   documentHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  merkleRoot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blockchainTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anchoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -361,6 +379,7 @@ export type DocumentUncheckedUpdateManyInput = {
   documentHash?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  merkleRoot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blockchainTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anchoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -383,6 +402,7 @@ export type DocumentCountOrderByAggregateInput = {
   documentHash?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  merkleRoot?: Prisma.SortOrder
   blockchainTxHash?: Prisma.SortOrder
   anchoredAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -395,6 +415,7 @@ export type DocumentMaxOrderByAggregateInput = {
   documentHash?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  merkleRoot?: Prisma.SortOrder
   blockchainTxHash?: Prisma.SortOrder
   anchoredAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -407,6 +428,7 @@ export type DocumentMinOrderByAggregateInput = {
   documentHash?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  merkleRoot?: Prisma.SortOrder
   blockchainTxHash?: Prisma.SortOrder
   anchoredAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -467,18 +489,18 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
-export type DocumentCreateNestedOneWithoutSignatureInput = {
-  create?: Prisma.XOR<Prisma.DocumentCreateWithoutSignatureInput, Prisma.DocumentUncheckedCreateWithoutSignatureInput>
-  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutSignatureInput
+export type DocumentCreateNestedOneWithoutSignersInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutSignersInput, Prisma.DocumentUncheckedCreateWithoutSignersInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutSignersInput
   connect?: Prisma.DocumentWhereUniqueInput
 }
 
-export type DocumentUpdateOneRequiredWithoutSignatureNestedInput = {
-  create?: Prisma.XOR<Prisma.DocumentCreateWithoutSignatureInput, Prisma.DocumentUncheckedCreateWithoutSignatureInput>
-  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutSignatureInput
-  upsert?: Prisma.DocumentUpsertWithoutSignatureInput
+export type DocumentUpdateOneRequiredWithoutSignersNestedInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutSignersInput, Prisma.DocumentUncheckedCreateWithoutSignersInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutSignersInput
+  upsert?: Prisma.DocumentUpsertWithoutSignersInput
   connect?: Prisma.DocumentWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutSignatureInput, Prisma.DocumentUpdateWithoutSignatureInput>, Prisma.DocumentUncheckedUpdateWithoutSignatureInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutSignersInput, Prisma.DocumentUpdateWithoutSignersInput>, Prisma.DocumentUncheckedUpdateWithoutSignersInput>
 }
 
 export type DocumentCreateWithoutOwnerInput = {
@@ -487,10 +509,11 @@ export type DocumentCreateWithoutOwnerInput = {
   storageUrl: string
   documentHash: string
   status?: $Enums.DocumentStatus
+  merkleRoot?: string | null
   blockchainTxHash?: string | null
   anchoredAt?: Date | string | null
   createdAt?: Date | string
-  signature?: Prisma.SignatureCreateNestedOneWithoutDocumentInput
+  signers?: Prisma.SignerCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateWithoutOwnerInput = {
@@ -499,10 +522,11 @@ export type DocumentUncheckedCreateWithoutOwnerInput = {
   storageUrl: string
   documentHash: string
   status?: $Enums.DocumentStatus
+  merkleRoot?: string | null
   blockchainTxHash?: string | null
   anchoredAt?: Date | string | null
   createdAt?: Date | string
-  signature?: Prisma.SignatureUncheckedCreateNestedOneWithoutDocumentInput
+  signers?: Prisma.SignerUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutOwnerInput = {
@@ -541,70 +565,75 @@ export type DocumentScalarWhereInput = {
   documentHash?: Prisma.StringFilter<"Document"> | string
   ownerId?: Prisma.StringFilter<"Document"> | string
   status?: Prisma.EnumDocumentStatusFilter<"Document"> | $Enums.DocumentStatus
+  merkleRoot?: Prisma.StringNullableFilter<"Document"> | string | null
   blockchainTxHash?: Prisma.StringNullableFilter<"Document"> | string | null
   anchoredAt?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
 }
 
-export type DocumentCreateWithoutSignatureInput = {
+export type DocumentCreateWithoutSignersInput = {
   id?: string
   name: string
   storageUrl: string
   documentHash: string
   status?: $Enums.DocumentStatus
+  merkleRoot?: string | null
   blockchainTxHash?: string | null
   anchoredAt?: Date | string | null
   createdAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutDocumentsInput
 }
 
-export type DocumentUncheckedCreateWithoutSignatureInput = {
+export type DocumentUncheckedCreateWithoutSignersInput = {
   id?: string
   name: string
   storageUrl: string
   documentHash: string
   ownerId: string
   status?: $Enums.DocumentStatus
+  merkleRoot?: string | null
   blockchainTxHash?: string | null
   anchoredAt?: Date | string | null
   createdAt?: Date | string
 }
 
-export type DocumentCreateOrConnectWithoutSignatureInput = {
+export type DocumentCreateOrConnectWithoutSignersInput = {
   where: Prisma.DocumentWhereUniqueInput
-  create: Prisma.XOR<Prisma.DocumentCreateWithoutSignatureInput, Prisma.DocumentUncheckedCreateWithoutSignatureInput>
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutSignersInput, Prisma.DocumentUncheckedCreateWithoutSignersInput>
 }
 
-export type DocumentUpsertWithoutSignatureInput = {
-  update: Prisma.XOR<Prisma.DocumentUpdateWithoutSignatureInput, Prisma.DocumentUncheckedUpdateWithoutSignatureInput>
-  create: Prisma.XOR<Prisma.DocumentCreateWithoutSignatureInput, Prisma.DocumentUncheckedCreateWithoutSignatureInput>
+export type DocumentUpsertWithoutSignersInput = {
+  update: Prisma.XOR<Prisma.DocumentUpdateWithoutSignersInput, Prisma.DocumentUncheckedUpdateWithoutSignersInput>
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutSignersInput, Prisma.DocumentUncheckedCreateWithoutSignersInput>
   where?: Prisma.DocumentWhereInput
 }
 
-export type DocumentUpdateToOneWithWhereWithoutSignatureInput = {
+export type DocumentUpdateToOneWithWhereWithoutSignersInput = {
   where?: Prisma.DocumentWhereInput
-  data: Prisma.XOR<Prisma.DocumentUpdateWithoutSignatureInput, Prisma.DocumentUncheckedUpdateWithoutSignatureInput>
+  data: Prisma.XOR<Prisma.DocumentUpdateWithoutSignersInput, Prisma.DocumentUncheckedUpdateWithoutSignersInput>
 }
 
-export type DocumentUpdateWithoutSignatureInput = {
+export type DocumentUpdateWithoutSignersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   storageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   documentHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  merkleRoot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blockchainTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anchoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
 }
 
-export type DocumentUncheckedUpdateWithoutSignatureInput = {
+export type DocumentUncheckedUpdateWithoutSignersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   storageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   documentHash?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  merkleRoot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blockchainTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anchoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -616,6 +645,7 @@ export type DocumentCreateManyOwnerInput = {
   storageUrl: string
   documentHash: string
   status?: $Enums.DocumentStatus
+  merkleRoot?: string | null
   blockchainTxHash?: string | null
   anchoredAt?: Date | string | null
   createdAt?: Date | string
@@ -627,10 +657,11 @@ export type DocumentUpdateWithoutOwnerInput = {
   storageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   documentHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  merkleRoot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blockchainTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anchoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  signature?: Prisma.SignatureUpdateOneWithoutDocumentNestedInput
+  signers?: Prisma.SignerUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateWithoutOwnerInput = {
@@ -639,10 +670,11 @@ export type DocumentUncheckedUpdateWithoutOwnerInput = {
   storageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   documentHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  merkleRoot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blockchainTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anchoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  signature?: Prisma.SignatureUncheckedUpdateOneWithoutDocumentNestedInput
+  signers?: Prisma.SignerUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateManyWithoutOwnerInput = {
@@ -651,11 +683,41 @@ export type DocumentUncheckedUpdateManyWithoutOwnerInput = {
   storageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   documentHash?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+  merkleRoot?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   blockchainTxHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   anchoredAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type DocumentCountOutputType
+ */
+
+export type DocumentCountOutputType = {
+  signers: number
+}
+
+export type DocumentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  signers?: boolean | DocumentCountOutputTypeCountSignersArgs
+}
+
+/**
+ * DocumentCountOutputType without action
+ */
+export type DocumentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentCountOutputType
+   */
+  select?: Prisma.DocumentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * DocumentCountOutputType without action
+ */
+export type DocumentCountOutputTypeCountSignersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SignerWhereInput
+}
 
 
 export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -665,11 +727,13 @@ export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   documentHash?: boolean
   ownerId?: boolean
   status?: boolean
+  merkleRoot?: boolean
   blockchainTxHash?: boolean
   anchoredAt?: boolean
   createdAt?: boolean
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  signature?: boolean | Prisma.Document$signatureArgs<ExtArgs>
+  signers?: boolean | Prisma.Document$signersArgs<ExtArgs>
+  _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["document"]>
 
 export type DocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -679,6 +743,7 @@ export type DocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   documentHash?: boolean
   ownerId?: boolean
   status?: boolean
+  merkleRoot?: boolean
   blockchainTxHash?: boolean
   anchoredAt?: boolean
   createdAt?: boolean
@@ -692,6 +757,7 @@ export type DocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   documentHash?: boolean
   ownerId?: boolean
   status?: boolean
+  merkleRoot?: boolean
   blockchainTxHash?: boolean
   anchoredAt?: boolean
   createdAt?: boolean
@@ -705,15 +771,17 @@ export type DocumentSelectScalar = {
   documentHash?: boolean
   ownerId?: boolean
   status?: boolean
+  merkleRoot?: boolean
   blockchainTxHash?: boolean
   anchoredAt?: boolean
   createdAt?: boolean
 }
 
-export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "storageUrl" | "documentHash" | "ownerId" | "status" | "blockchainTxHash" | "anchoredAt" | "createdAt", ExtArgs["result"]["document"]>
+export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "storageUrl" | "documentHash" | "ownerId" | "status" | "merkleRoot" | "blockchainTxHash" | "anchoredAt" | "createdAt", ExtArgs["result"]["document"]>
 export type DocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  signature?: boolean | Prisma.Document$signatureArgs<ExtArgs>
+  signers?: boolean | Prisma.Document$signersArgs<ExtArgs>
+  _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DocumentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -726,7 +794,7 @@ export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Document"
   objects: {
     owner: Prisma.$UserPayload<ExtArgs>
-    signature: Prisma.$SignaturePayload<ExtArgs> | null
+    signers: Prisma.$SignerPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -735,6 +803,7 @@ export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     documentHash: string
     ownerId: string
     status: $Enums.DocumentStatus
+    merkleRoot: string | null
     blockchainTxHash: string | null
     anchoredAt: Date | null
     createdAt: Date
@@ -1133,7 +1202,7 @@ readonly fields: DocumentFieldRefs;
 export interface Prisma__DocumentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   owner<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  signature<T extends Prisma.Document$signatureArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$signatureArgs<ExtArgs>>): Prisma.Prisma__SignatureClient<runtime.Types.Result.GetResult<Prisma.$SignaturePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  signers<T extends Prisma.Document$signersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$signersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SignerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1169,6 +1238,7 @@ export interface DocumentFieldRefs {
   readonly documentHash: Prisma.FieldRef<"Document", 'String'>
   readonly ownerId: Prisma.FieldRef<"Document", 'String'>
   readonly status: Prisma.FieldRef<"Document", 'DocumentStatus'>
+  readonly merkleRoot: Prisma.FieldRef<"Document", 'String'>
   readonly blockchainTxHash: Prisma.FieldRef<"Document", 'String'>
   readonly anchoredAt: Prisma.FieldRef<"Document", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Document", 'DateTime'>
@@ -1568,22 +1638,27 @@ export type DocumentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Document.signature
+ * Document.signers
  */
-export type Document$signatureArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Document$signersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Signature
+   * Select specific fields to fetch from the Signer
    */
-  select?: Prisma.SignatureSelect<ExtArgs> | null
+  select?: Prisma.SignerSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Signature
+   * Omit specific fields from the Signer
    */
-  omit?: Prisma.SignatureOmit<ExtArgs> | null
+  omit?: Prisma.SignerOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.SignatureInclude<ExtArgs> | null
-  where?: Prisma.SignatureWhereInput
+  include?: Prisma.SignerInclude<ExtArgs> | null
+  where?: Prisma.SignerWhereInput
+  orderBy?: Prisma.SignerOrderByWithRelationInput | Prisma.SignerOrderByWithRelationInput[]
+  cursor?: Prisma.SignerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SignerScalarFieldEnum | Prisma.SignerScalarFieldEnum[]
 }
 
 /**

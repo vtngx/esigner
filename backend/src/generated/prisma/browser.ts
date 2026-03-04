@@ -23,12 +23,22 @@ export * from './enums.js';
  */
 export type User = Prisma.UserModel
 /**
+ * Model Wallet
+ * 
+ */
+export type Wallet = Prisma.WalletModel
+/**
+ * Model UserNonce
+ * 
+ */
+export type UserNonce = Prisma.UserNonceModel
+/**
  * Model Document
  * 
  */
 export type Document = Prisma.DocumentModel
 /**
- * Model Signature
+ * Model Signer
  * 
  */
-export type Signature = Prisma.SignatureModel
+export type Signer = Prisma.SignerModel

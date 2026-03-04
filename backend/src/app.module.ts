@@ -7,6 +7,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { TerminusModule } from '@nestjs/terminus';
 import { DocumentsModule } from './modules/documents/documents.module';
 import { BlockchainModule } from './modules/blockchain/blockchain.module';
+import { WalletsModule } from './modules/wallets/wallets.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { BlockchainModule } from './modules/blockchain/blockchain.module';
     TerminusModule,
     AuthModule,
     UsersModule,
+    WalletsModule,
     DocumentsModule,
     BlockchainModule,
   ],

@@ -26,22 +26,22 @@ export type AggregateUser = {
 
 export type UserMinAggregateOutputType = {
   id: string | null
-  walletAddress: string | null
-  nonce: string | null
+  username: string | null
+  password: string | null
   createdAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
   id: string | null
-  walletAddress: string | null
-  nonce: string | null
+  username: string | null
+  password: string | null
   createdAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
   id: number
-  walletAddress: number
-  nonce: number
+  username: number
+  password: number
   createdAt: number
   _all: number
 }
@@ -49,22 +49,22 @@ export type UserCountAggregateOutputType = {
 
 export type UserMinAggregateInputType = {
   id?: true
-  walletAddress?: true
-  nonce?: true
+  username?: true
+  password?: true
   createdAt?: true
 }
 
 export type UserMaxAggregateInputType = {
   id?: true
-  walletAddress?: true
-  nonce?: true
+  username?: true
+  password?: true
   createdAt?: true
 }
 
 export type UserCountAggregateInputType = {
   id?: true
-  walletAddress?: true
-  nonce?: true
+  username?: true
+  password?: true
   createdAt?: true
   _all?: true
 }
@@ -143,8 +143,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type UserGroupByOutputType = {
   id: string
-  walletAddress: string
-  nonce: string | null
+  username: string
+  password: string | null
   createdAt: Date
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
@@ -171,38 +171,44 @@ export type UserWhereInput = {
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   id?: Prisma.StringFilter<"User"> | string
-  walletAddress?: Prisma.StringFilter<"User"> | string
-  nonce?: Prisma.StringNullableFilter<"User"> | string | null
+  username?: Prisma.StringFilter<"User"> | string
+  password?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  wallets?: Prisma.WalletListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
-  signatures?: Prisma.SignatureListRelationFilter
+  signers?: Prisma.SignerListRelationFilter
+  nonce?: Prisma.XOR<Prisma.UserNonceNullableScalarRelationFilter, Prisma.UserNonceWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  walletAddress?: Prisma.SortOrder
-  nonce?: Prisma.SortOrderInput | Prisma.SortOrder
+  username?: Prisma.SortOrder
+  password?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  wallets?: Prisma.WalletOrderByRelationAggregateInput
   documents?: Prisma.DocumentOrderByRelationAggregateInput
-  signatures?: Prisma.SignatureOrderByRelationAggregateInput
+  signers?: Prisma.SignerOrderByRelationAggregateInput
+  nonce?: Prisma.UserNonceOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  walletAddress?: string
+  username?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  nonce?: Prisma.StringNullableFilter<"User"> | string | null
+  password?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  wallets?: Prisma.WalletListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
-  signatures?: Prisma.SignatureListRelationFilter
-}, "id" | "walletAddress">
+  signers?: Prisma.SignerListRelationFilter
+  nonce?: Prisma.XOR<Prisma.UserNonceNullableScalarRelationFilter, Prisma.UserNonceWhereInput> | null
+}, "id" | "username">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  walletAddress?: Prisma.SortOrder
-  nonce?: Prisma.SortOrderInput | Prisma.SortOrder
+  username?: Prisma.SortOrder
+  password?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -214,86 +220,94 @@ export type UserScalarWhereWithAggregatesInput = {
   OR?: Prisma.UserScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
-  walletAddress?: Prisma.StringWithAggregatesFilter<"User"> | string
-  nonce?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  username?: Prisma.StringWithAggregatesFilter<"User"> | string
+  password?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
 
 export type UserCreateInput = {
   id?: string
-  walletAddress: string
-  nonce?: string | null
+  username: string
+  password?: string | null
   createdAt?: Date | string
+  wallets?: Prisma.WalletCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentCreateNestedManyWithoutOwnerInput
-  signatures?: Prisma.SignatureCreateNestedManyWithoutSignerInput
+  signers?: Prisma.SignerCreateNestedManyWithoutUserInput
+  nonce?: Prisma.UserNonceCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
   id?: string
-  walletAddress: string
-  nonce?: string | null
+  username: string
+  password?: string | null
   createdAt?: Date | string
+  wallets?: Prisma.WalletUncheckedCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOwnerInput
-  signatures?: Prisma.SignatureUncheckedCreateNestedManyWithoutSignerInput
+  signers?: Prisma.SignerUncheckedCreateNestedManyWithoutUserInput
+  nonce?: Prisma.UserNonceUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
-  nonce?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallets?: Prisma.WalletUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutOwnerNestedInput
-  signatures?: Prisma.SignatureUpdateManyWithoutSignerNestedInput
+  signers?: Prisma.SignerUpdateManyWithoutUserNestedInput
+  nonce?: Prisma.UserNonceUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
-  nonce?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallets?: Prisma.WalletUncheckedUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOwnerNestedInput
-  signatures?: Prisma.SignatureUncheckedUpdateManyWithoutSignerNestedInput
+  signers?: Prisma.SignerUncheckedUpdateManyWithoutUserNestedInput
+  nonce?: Prisma.UserNonceUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
   id?: string
-  walletAddress: string
-  nonce?: string | null
+  username: string
+  password?: string | null
   createdAt?: Date | string
 }
 
 export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
-  nonce?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
-  nonce?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  walletAddress?: Prisma.SortOrder
-  nonce?: Prisma.SortOrder
+  username?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  walletAddress?: Prisma.SortOrder
-  nonce?: Prisma.SortOrder
+  username?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  walletAddress?: Prisma.SortOrder
-  nonce?: Prisma.SortOrder
+  username?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -314,6 +328,34 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type UserCreateNestedOneWithoutWalletsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletsInput, Prisma.UserUncheckedCreateWithoutWalletsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWalletsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWalletsInput, Prisma.UserUncheckedCreateWithoutWalletsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWalletsInput
+  upsert?: Prisma.UserUpsertWithoutWalletsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWalletsInput, Prisma.UserUpdateWithoutWalletsInput>, Prisma.UserUncheckedUpdateWithoutWalletsInput>
+}
+
+export type UserCreateNestedOneWithoutNonceInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNonceInput, Prisma.UserUncheckedCreateWithoutNonceInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNonceInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNonceNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNonceInput, Prisma.UserUncheckedCreateWithoutNonceInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNonceInput
+  upsert?: Prisma.UserUpsertWithoutNonceInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNonceInput, Prisma.UserUpdateWithoutNonceInput>, Prisma.UserUncheckedUpdateWithoutNonceInput>
+}
+
 export type UserCreateNestedOneWithoutDocumentsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutDocumentsInput, Prisma.UserUncheckedCreateWithoutDocumentsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutDocumentsInput
@@ -328,34 +370,150 @@ export type UserUpdateOneRequiredWithoutDocumentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDocumentsInput, Prisma.UserUpdateWithoutDocumentsInput>, Prisma.UserUncheckedUpdateWithoutDocumentsInput>
 }
 
-export type UserCreateNestedOneWithoutSignaturesInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSignaturesInput, Prisma.UserUncheckedCreateWithoutSignaturesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSignaturesInput
+export type UserCreateNestedOneWithoutSignersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSignersInput, Prisma.UserUncheckedCreateWithoutSignersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSignersInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutSignaturesNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSignaturesInput, Prisma.UserUncheckedCreateWithoutSignaturesInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSignaturesInput
-  upsert?: Prisma.UserUpsertWithoutSignaturesInput
+export type UserUpdateOneRequiredWithoutSignersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSignersInput, Prisma.UserUncheckedCreateWithoutSignersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSignersInput
+  upsert?: Prisma.UserUpsertWithoutSignersInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSignaturesInput, Prisma.UserUpdateWithoutSignaturesInput>, Prisma.UserUncheckedUpdateWithoutSignaturesInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSignersInput, Prisma.UserUpdateWithoutSignersInput>, Prisma.UserUncheckedUpdateWithoutSignersInput>
+}
+
+export type UserCreateWithoutWalletsInput = {
+  id?: string
+  username: string
+  password?: string | null
+  createdAt?: Date | string
+  documents?: Prisma.DocumentCreateNestedManyWithoutOwnerInput
+  signers?: Prisma.SignerCreateNestedManyWithoutUserInput
+  nonce?: Prisma.UserNonceCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutWalletsInput = {
+  id?: string
+  username: string
+  password?: string | null
+  createdAt?: Date | string
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOwnerInput
+  signers?: Prisma.SignerUncheckedCreateNestedManyWithoutUserInput
+  nonce?: Prisma.UserNonceUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutWalletsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWalletsInput, Prisma.UserUncheckedCreateWithoutWalletsInput>
+}
+
+export type UserUpsertWithoutWalletsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWalletsInput, Prisma.UserUncheckedUpdateWithoutWalletsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWalletsInput, Prisma.UserUncheckedCreateWithoutWalletsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWalletsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWalletsInput, Prisma.UserUncheckedUpdateWithoutWalletsInput>
+}
+
+export type UserUpdateWithoutWalletsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  documents?: Prisma.DocumentUpdateManyWithoutOwnerNestedInput
+  signers?: Prisma.SignerUpdateManyWithoutUserNestedInput
+  nonce?: Prisma.UserNonceUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWalletsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutOwnerNestedInput
+  signers?: Prisma.SignerUncheckedUpdateManyWithoutUserNestedInput
+  nonce?: Prisma.UserNonceUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutNonceInput = {
+  id?: string
+  username: string
+  password?: string | null
+  createdAt?: Date | string
+  wallets?: Prisma.WalletCreateNestedManyWithoutUserInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutOwnerInput
+  signers?: Prisma.SignerCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutNonceInput = {
+  id?: string
+  username: string
+  password?: string | null
+  createdAt?: Date | string
+  wallets?: Prisma.WalletUncheckedCreateNestedManyWithoutUserInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOwnerInput
+  signers?: Prisma.SignerUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutNonceInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNonceInput, Prisma.UserUncheckedCreateWithoutNonceInput>
+}
+
+export type UserUpsertWithoutNonceInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNonceInput, Prisma.UserUncheckedUpdateWithoutNonceInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNonceInput, Prisma.UserUncheckedCreateWithoutNonceInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNonceInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNonceInput, Prisma.UserUncheckedUpdateWithoutNonceInput>
+}
+
+export type UserUpdateWithoutNonceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallets?: Prisma.WalletUpdateManyWithoutUserNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutOwnerNestedInput
+  signers?: Prisma.SignerUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNonceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallets?: Prisma.WalletUncheckedUpdateManyWithoutUserNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutOwnerNestedInput
+  signers?: Prisma.SignerUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDocumentsInput = {
   id?: string
-  walletAddress: string
-  nonce?: string | null
+  username: string
+  password?: string | null
   createdAt?: Date | string
-  signatures?: Prisma.SignatureCreateNestedManyWithoutSignerInput
+  wallets?: Prisma.WalletCreateNestedManyWithoutUserInput
+  signers?: Prisma.SignerCreateNestedManyWithoutUserInput
+  nonce?: Prisma.UserNonceCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDocumentsInput = {
   id?: string
-  walletAddress: string
-  nonce?: string | null
+  username: string
+  password?: string | null
   createdAt?: Date | string
-  signatures?: Prisma.SignatureUncheckedCreateNestedManyWithoutSignerInput
+  wallets?: Prisma.WalletUncheckedCreateNestedManyWithoutUserInput
+  signers?: Prisma.SignerUncheckedCreateNestedManyWithoutUserInput
+  nonce?: Prisma.UserNonceUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDocumentsInput = {
@@ -376,66 +534,78 @@ export type UserUpdateToOneWithWhereWithoutDocumentsInput = {
 
 export type UserUpdateWithoutDocumentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
-  nonce?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  signatures?: Prisma.SignatureUpdateManyWithoutSignerNestedInput
+  wallets?: Prisma.WalletUpdateManyWithoutUserNestedInput
+  signers?: Prisma.SignerUpdateManyWithoutUserNestedInput
+  nonce?: Prisma.UserNonceUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDocumentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
-  nonce?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  signatures?: Prisma.SignatureUncheckedUpdateManyWithoutSignerNestedInput
+  wallets?: Prisma.WalletUncheckedUpdateManyWithoutUserNestedInput
+  signers?: Prisma.SignerUncheckedUpdateManyWithoutUserNestedInput
+  nonce?: Prisma.UserNonceUncheckedUpdateOneWithoutUserNestedInput
 }
 
-export type UserCreateWithoutSignaturesInput = {
+export type UserCreateWithoutSignersInput = {
   id?: string
-  walletAddress: string
-  nonce?: string | null
+  username: string
+  password?: string | null
   createdAt?: Date | string
+  wallets?: Prisma.WalletCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentCreateNestedManyWithoutOwnerInput
+  nonce?: Prisma.UserNonceCreateNestedOneWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutSignaturesInput = {
+export type UserUncheckedCreateWithoutSignersInput = {
   id?: string
-  walletAddress: string
-  nonce?: string | null
+  username: string
+  password?: string | null
   createdAt?: Date | string
+  wallets?: Prisma.WalletUncheckedCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOwnerInput
+  nonce?: Prisma.UserNonceUncheckedCreateNestedOneWithoutUserInput
 }
 
-export type UserCreateOrConnectWithoutSignaturesInput = {
+export type UserCreateOrConnectWithoutSignersInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutSignaturesInput, Prisma.UserUncheckedCreateWithoutSignaturesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSignersInput, Prisma.UserUncheckedCreateWithoutSignersInput>
 }
 
-export type UserUpsertWithoutSignaturesInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutSignaturesInput, Prisma.UserUncheckedUpdateWithoutSignaturesInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutSignaturesInput, Prisma.UserUncheckedCreateWithoutSignaturesInput>
+export type UserUpsertWithoutSignersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSignersInput, Prisma.UserUncheckedUpdateWithoutSignersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSignersInput, Prisma.UserUncheckedCreateWithoutSignersInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutSignaturesInput = {
+export type UserUpdateToOneWithWhereWithoutSignersInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutSignaturesInput, Prisma.UserUncheckedUpdateWithoutSignaturesInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSignersInput, Prisma.UserUncheckedUpdateWithoutSignersInput>
 }
 
-export type UserUpdateWithoutSignaturesInput = {
+export type UserUpdateWithoutSignersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
-  nonce?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallets?: Prisma.WalletUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutOwnerNestedInput
+  nonce?: Prisma.UserNonceUpdateOneWithoutUserNestedInput
 }
 
-export type UserUncheckedUpdateWithoutSignaturesInput = {
+export type UserUncheckedUpdateWithoutSignersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  walletAddress?: Prisma.StringFieldUpdateOperationsInput | string
-  nonce?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallets?: Prisma.WalletUncheckedUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOwnerNestedInput
+  nonce?: Prisma.UserNonceUncheckedUpdateOneWithoutUserNestedInput
 }
 
 
@@ -444,13 +614,15 @@ export type UserUncheckedUpdateWithoutSignaturesInput = {
  */
 
 export type UserCountOutputType = {
+  wallets: number
   documents: number
-  signatures: number
+  signers: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  wallets?: boolean | UserCountOutputTypeCountWalletsArgs
   documents?: boolean | UserCountOutputTypeCountDocumentsArgs
-  signatures?: boolean | UserCountOutputTypeCountSignaturesArgs
+  signers?: boolean | UserCountOutputTypeCountSignersArgs
 }
 
 /**
@@ -466,6 +638,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountWalletsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WalletWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.DocumentWhereInput
 }
@@ -473,46 +652,50 @@ export type UserCountOutputTypeCountDocumentsArgs<ExtArgs extends runtime.Types.
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountSignaturesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SignatureWhereInput
+export type UserCountOutputTypeCountSignersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SignerWhereInput
 }
 
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  walletAddress?: boolean
-  nonce?: boolean
+  username?: boolean
+  password?: boolean
   createdAt?: boolean
+  wallets?: boolean | Prisma.User$walletsArgs<ExtArgs>
   documents?: boolean | Prisma.User$documentsArgs<ExtArgs>
-  signatures?: boolean | Prisma.User$signaturesArgs<ExtArgs>
+  signers?: boolean | Prisma.User$signersArgs<ExtArgs>
+  nonce?: boolean | Prisma.User$nonceArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  walletAddress?: boolean
-  nonce?: boolean
+  username?: boolean
+  password?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  walletAddress?: boolean
-  nonce?: boolean
+  username?: boolean
+  password?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
   id?: boolean
-  walletAddress?: boolean
-  nonce?: boolean
+  username?: boolean
+  password?: boolean
   createdAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "walletAddress" | "nonce" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "password" | "createdAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  wallets?: boolean | Prisma.User$walletsArgs<ExtArgs>
   documents?: boolean | Prisma.User$documentsArgs<ExtArgs>
-  signatures?: boolean | Prisma.User$signaturesArgs<ExtArgs>
+  signers?: boolean | Prisma.User$signersArgs<ExtArgs>
+  nonce?: boolean | Prisma.User$nonceArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -521,13 +704,15 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
+    wallets: Prisma.$WalletPayload<ExtArgs>[]
     documents: Prisma.$DocumentPayload<ExtArgs>[]
-    signatures: Prisma.$SignaturePayload<ExtArgs>[]
+    signers: Prisma.$SignerPayload<ExtArgs>[]
+    nonce: Prisma.$UserNoncePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    walletAddress: string
-    nonce: string | null
+    username: string
+    password: string | null
     createdAt: Date
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -923,8 +1108,10 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  wallets<T extends Prisma.User$walletsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$walletsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WalletPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   documents<T extends Prisma.User$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  signatures<T extends Prisma.User$signaturesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$signaturesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SignaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  signers<T extends Prisma.User$signersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$signersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SignerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  nonce<T extends Prisma.User$nonceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$nonceArgs<ExtArgs>>): Prisma.Prisma__UserNonceClient<runtime.Types.Result.GetResult<Prisma.$UserNoncePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -955,8 +1142,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
-  readonly walletAddress: Prisma.FieldRef<"User", 'String'>
-  readonly nonce: Prisma.FieldRef<"User", 'String'>
+  readonly username: Prisma.FieldRef<"User", 'String'>
+  readonly password: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
@@ -1346,6 +1533,30 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * User.wallets
+ */
+export type User$walletsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Wallet
+   */
+  select?: Prisma.WalletSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Wallet
+   */
+  omit?: Prisma.WalletOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WalletInclude<ExtArgs> | null
+  where?: Prisma.WalletWhereInput
+  orderBy?: Prisma.WalletOrderByWithRelationInput | Prisma.WalletOrderByWithRelationInput[]
+  cursor?: Prisma.WalletWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WalletScalarFieldEnum | Prisma.WalletScalarFieldEnum[]
+}
+
+/**
  * User.documents
  */
 export type User$documentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1370,27 +1581,46 @@ export type User$documentsArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.signatures
+ * User.signers
  */
-export type User$signaturesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$signersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Signature
+   * Select specific fields to fetch from the Signer
    */
-  select?: Prisma.SignatureSelect<ExtArgs> | null
+  select?: Prisma.SignerSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Signature
+   * Omit specific fields from the Signer
    */
-  omit?: Prisma.SignatureOmit<ExtArgs> | null
+  omit?: Prisma.SignerOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.SignatureInclude<ExtArgs> | null
-  where?: Prisma.SignatureWhereInput
-  orderBy?: Prisma.SignatureOrderByWithRelationInput | Prisma.SignatureOrderByWithRelationInput[]
-  cursor?: Prisma.SignatureWhereUniqueInput
+  include?: Prisma.SignerInclude<ExtArgs> | null
+  where?: Prisma.SignerWhereInput
+  orderBy?: Prisma.SignerOrderByWithRelationInput | Prisma.SignerOrderByWithRelationInput[]
+  cursor?: Prisma.SignerWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.SignatureScalarFieldEnum | Prisma.SignatureScalarFieldEnum[]
+  distinct?: Prisma.SignerScalarFieldEnum | Prisma.SignerScalarFieldEnum[]
+}
+
+/**
+ * User.nonce
+ */
+export type User$nonceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserNonce
+   */
+  select?: Prisma.UserNonceSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserNonce
+   */
+  omit?: Prisma.UserNonceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserNonceInclude<ExtArgs> | null
+  where?: Prisma.UserNonceWhereInput
 }
 
 /**

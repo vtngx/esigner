@@ -11,6 +11,7 @@
 
 export const DocumentStatus = {
   DRAFT: 'DRAFT',
+  SIGNING: 'SIGNING',
   SIGNED: 'SIGNED',
   ANCHORED: 'ANCHORED'
 } as const

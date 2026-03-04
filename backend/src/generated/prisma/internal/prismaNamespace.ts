@@ -385,8 +385,10 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  Wallet: 'Wallet',
+  UserNonce: 'UserNonce',
   Document: 'Document',
-  Signature: 'Signature'
+  Signer: 'Signer'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "document" | "signature"
+    modelProps: "user" | "wallet" | "userNonce" | "document" | "signer"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -480,6 +482,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Wallet: {
+      payload: Prisma.$WalletPayload<ExtArgs>
+      fields: Prisma.WalletFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WalletFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WalletFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        findFirst: {
+          args: Prisma.WalletFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WalletFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        findMany: {
+          args: Prisma.WalletFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>[]
+        }
+        create: {
+          args: Prisma.WalletCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        createMany: {
+          args: Prisma.WalletCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WalletCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>[]
+        }
+        delete: {
+          args: Prisma.WalletDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        update: {
+          args: Prisma.WalletUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        deleteMany: {
+          args: Prisma.WalletDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WalletUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WalletUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>[]
+        }
+        upsert: {
+          args: Prisma.WalletUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        aggregate: {
+          args: Prisma.WalletAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWallet>
+        }
+        groupBy: {
+          args: Prisma.WalletGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WalletCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserNonce: {
+      payload: Prisma.$UserNoncePayload<ExtArgs>
+      fields: Prisma.UserNonceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserNonceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserNoncePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserNonceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserNoncePayload>
+        }
+        findFirst: {
+          args: Prisma.UserNonceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserNoncePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserNonceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserNoncePayload>
+        }
+        findMany: {
+          args: Prisma.UserNonceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserNoncePayload>[]
+        }
+        create: {
+          args: Prisma.UserNonceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserNoncePayload>
+        }
+        createMany: {
+          args: Prisma.UserNonceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserNonceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserNoncePayload>[]
+        }
+        delete: {
+          args: Prisma.UserNonceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserNoncePayload>
+        }
+        update: {
+          args: Prisma.UserNonceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserNoncePayload>
+        }
+        deleteMany: {
+          args: Prisma.UserNonceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserNonceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserNonceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserNoncePayload>[]
+        }
+        upsert: {
+          args: Prisma.UserNonceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserNoncePayload>
+        }
+        aggregate: {
+          args: Prisma.UserNonceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserNonce>
+        }
+        groupBy: {
+          args: Prisma.UserNonceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserNonceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserNonceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserNonceCountAggregateOutputType> | number
+        }
+      }
+    }
     Document: {
       payload: Prisma.$DocumentPayload<ExtArgs>
       fields: Prisma.DocumentFieldRefs
@@ -554,77 +704,77 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    Signature: {
-      payload: Prisma.$SignaturePayload<ExtArgs>
-      fields: Prisma.SignatureFieldRefs
+    Signer: {
+      payload: Prisma.$SignerPayload<ExtArgs>
+      fields: Prisma.SignerFieldRefs
       operations: {
         findUnique: {
-          args: Prisma.SignatureFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignaturePayload> | null
+          args: Prisma.SignerFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignerPayload> | null
         }
         findUniqueOrThrow: {
-          args: Prisma.SignatureFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignaturePayload>
+          args: Prisma.SignerFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignerPayload>
         }
         findFirst: {
-          args: Prisma.SignatureFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignaturePayload> | null
+          args: Prisma.SignerFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignerPayload> | null
         }
         findFirstOrThrow: {
-          args: Prisma.SignatureFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignaturePayload>
+          args: Prisma.SignerFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignerPayload>
         }
         findMany: {
-          args: Prisma.SignatureFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignaturePayload>[]
+          args: Prisma.SignerFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignerPayload>[]
         }
         create: {
-          args: Prisma.SignatureCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignaturePayload>
+          args: Prisma.SignerCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignerPayload>
         }
         createMany: {
-          args: Prisma.SignatureCreateManyArgs<ExtArgs>
+          args: Prisma.SignerCreateManyArgs<ExtArgs>
           result: BatchPayload
         }
         createManyAndReturn: {
-          args: Prisma.SignatureCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignaturePayload>[]
+          args: Prisma.SignerCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignerPayload>[]
         }
         delete: {
-          args: Prisma.SignatureDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignaturePayload>
+          args: Prisma.SignerDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignerPayload>
         }
         update: {
-          args: Prisma.SignatureUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignaturePayload>
+          args: Prisma.SignerUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignerPayload>
         }
         deleteMany: {
-          args: Prisma.SignatureDeleteManyArgs<ExtArgs>
+          args: Prisma.SignerDeleteManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateMany: {
-          args: Prisma.SignatureUpdateManyArgs<ExtArgs>
+          args: Prisma.SignerUpdateManyArgs<ExtArgs>
           result: BatchPayload
         }
         updateManyAndReturn: {
-          args: Prisma.SignatureUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignaturePayload>[]
+          args: Prisma.SignerUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignerPayload>[]
         }
         upsert: {
-          args: Prisma.SignatureUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignaturePayload>
+          args: Prisma.SignerUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignerPayload>
         }
         aggregate: {
-          args: Prisma.SignatureAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateSignature>
+          args: Prisma.SignerAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSigner>
         }
         groupBy: {
-          args: Prisma.SignatureGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.SignatureGroupByOutputType>[]
+          args: Prisma.SignerGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SignerGroupByOutputType>[]
         }
         count: {
-          args: Prisma.SignatureCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.SignatureCountAggregateOutputType> | number
+          args: Prisma.SignerCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SignerCountAggregateOutputType> | number
         }
       }
     }
@@ -669,12 +819,32 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const UserScalarFieldEnum = {
   id: 'id',
-  walletAddress: 'walletAddress',
-  nonce: 'nonce',
+  username: 'username',
+  password: 'password',
   createdAt: 'createdAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const WalletScalarFieldEnum = {
+  id: 'id',
+  address: 'address',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
+
+
+export const UserNonceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  nonce: 'nonce',
+  createdAt: 'createdAt'
+} as const
+
+export type UserNonceScalarFieldEnum = (typeof UserNonceScalarFieldEnum)[keyof typeof UserNonceScalarFieldEnum]
 
 
 export const DocumentScalarFieldEnum = {
@@ -684,6 +854,7 @@ export const DocumentScalarFieldEnum = {
   documentHash: 'documentHash',
   ownerId: 'ownerId',
   status: 'status',
+  merkleRoot: 'merkleRoot',
   blockchainTxHash: 'blockchainTxHash',
   anchoredAt: 'anchoredAt',
   createdAt: 'createdAt'
@@ -692,15 +863,17 @@ export const DocumentScalarFieldEnum = {
 export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
 
 
-export const SignatureScalarFieldEnum = {
+export const SignerScalarFieldEnum = {
   id: 'id',
   documentId: 'documentId',
-  signerId: 'signerId',
+  userId: 'userId',
   signatureHex: 'signatureHex',
-  signedAt: 'signedAt'
+  signedAt: 'signedAt',
+  signedWalletAddress: 'signedWalletAddress',
+  merkleProof: 'merkleProof'
 } as const
 
-export type SignatureScalarFieldEnum = (typeof SignatureScalarFieldEnum)[keyof typeof SignatureScalarFieldEnum]
+export type SignerScalarFieldEnum = (typeof SignerScalarFieldEnum)[keyof typeof SignerScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -709,6 +882,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -725,6 +906,15 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 
@@ -772,6 +962,20 @@ export type EnumDocumentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'DocumentStatus[]'
  */
 export type ListEnumDocumentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -884,8 +1088,10 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  wallet?: Prisma.WalletOmit
+  userNonce?: Prisma.UserNonceOmit
   document?: Prisma.DocumentOmit
-  signature?: Prisma.SignatureOmit
+  signer?: Prisma.SignerOmit
 }
 
 /* Types for Logging */

@@ -1,0 +1,78 @@
+{
+  "_format": "hh3-artifact-1",
+  "contractName": "SignatureAnchor",
+  "sourceName": "contracts/SignatureAnchor.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "root",
+          "type": "bytes32"
+        }
+      ],
+      "name": "Anchored",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "root",
+          "type": "bytes32"
+        }
+      ],
+      "name": "anchor",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "anchored",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "root",
+          "type": "bytes32"
+        }
+      ],
+      "name": "verify",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6080604052348015600e575f5ffd5b506101a78061001c5f395ff3fe608060405234801561000f575f5ffd5b506004361061003f575f3560e01c806375e3661614610043578063dd64914614610079578063eecdf9271461009b575b5f5ffd5b61006561005136600461015a565b5f9081526020819052604090205460ff1690565b604051901515815260200160405180910390f35b61006561008736600461015a565b5f6020819052908152604090205460ff1681565b6100ae6100a936600461015a565b6100b0565b005b5f8181526020819052604090205460ff16156101055760405162461bcd60e51b815260206004820152601060248201526f105b1c9958591e48185b98da1bdc995960821b604482015260640160405180910390fd5b5f8181526020819052604090819020805460ff19166001179055517fc8f7565859107929ba4b285bfb17dfba069f69ab64447f49d6fecb70f6bd552b9061014f9083815260200190565b60405180910390a150565b5f6020828403121561016a575f5ffd5b503591905056fea26469706673582212202f09db4ef57d2f271505e732a631d57ad26a7304b4f3f6d62bfac8100eb1ec1564736f6c634300081c0033",
+  "deployedBytecode": "0x608060405234801561000f575f5ffd5b506004361061003f575f3560e01c806375e3661614610043578063dd64914614610079578063eecdf9271461009b575b5f5ffd5b61006561005136600461015a565b5f9081526020819052604090205460ff1690565b604051901515815260200160405180910390f35b61006561008736600461015a565b5f6020819052908152604090205460ff1681565b6100ae6100a936600461015a565b6100b0565b005b5f8181526020819052604090205460ff16156101055760405162461bcd60e51b815260206004820152601060248201526f105b1c9958591e48185b98da1bdc995960821b604482015260640160405180910390fd5b5f8181526020819052604090819020805460ff19166001179055517fc8f7565859107929ba4b285bfb17dfba069f69ab64447f49d6fecb70f6bd552b9061014f9083815260200190565b60405180910390a150565b5f6020828403121561016a575f5ffd5b503591905056fea26469706673582212202f09db4ef57d2f271505e732a631d57ad26a7304b4f3f6d62bfac8100eb1ec1564736f6c634300081c0033",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "immutableReferences": {},
+  "inputSourceName": "project/contracts/SignatureAnchor.sol",
+  "buildInfoId": "solc-0_8_28-8b88313fd8d7a65eec1b9bffc44844fccb0cae5b"
+}

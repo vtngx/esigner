@@ -9,12 +9,30 @@ datasource db {
 
 // list of models
 model User {
-  id            String      @id @default(uuid())
-  walletAddress String      @unique
-  nonce         String?
-  createdAt     DateTime    @default(now())
-  documents     Document[]
-  signatures    Signature[]
+  id        String     @id @default(uuid())
+  username  String     @unique
+  password  String?
+  wallets   Wallet[]
+  createdAt DateTime   @default(now())
+  documents Document[] @relation("OwnerDocs")
+  signers   Signer[]
+  nonce     UserNonce?
+}
+
+model Wallet {
+  id        String   @id @default(uuid())
+  address   String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model UserNonce {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  nonce     String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Document {
@@ -23,26 +41,32 @@ model Document {
   storageUrl       String
   documentHash     String         @unique
   ownerId          String
-  owner            User           @relation(fields: [ownerId], references: [id])
+  owner            User           @relation("OwnerDocs", fields: [ownerId], references: [id])
   status           DocumentStatus @default(DRAFT)
-  signature        Signature?
+  signers          Signer[]
+  merkleRoot       String?
   blockchainTxHash String?
   anchoredAt       DateTime?
   createdAt        DateTime       @default(now())
 }
 
-model Signature {
-  id           String   @id @default(uuid())
-  documentId   String   @unique
-  document     Document @relation(fields: [documentId], references: [id])
-  signerId     String
-  signer       User     @relation(fields: [signerId], references: [id])
-  signatureHex String
-  signedAt     DateTime @default(now())
+model Signer {
+  id                  String    @id @default(uuid())
+  documentId          String
+  document            Document  @relation(fields: [documentId], references: [id])
+  userId              String
+  user                User      @relation(fields: [userId], references: [id])
+  signatureHex        String?
+  signedAt            DateTime?
+  signedWalletAddress String?
+  merkleProof         Json?
+
+  @@unique([documentId, userId])
 }
 
 enum DocumentStatus {
   DRAFT
+  SIGNING
   SIGNED
   ANCHORED
 }

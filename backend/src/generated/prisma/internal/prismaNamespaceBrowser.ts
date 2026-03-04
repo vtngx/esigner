@@ -52,8 +52,10 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  Wallet: 'Wallet',
+  UserNonce: 'UserNonce',
   Document: 'Document',
-  Signature: 'Signature'
+  Signer: 'Signer'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -74,12 +76,32 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 
 export const UserScalarFieldEnum = {
   id: 'id',
-  walletAddress: 'walletAddress',
-  nonce: 'nonce',
+  username: 'username',
+  password: 'password',
   createdAt: 'createdAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const WalletScalarFieldEnum = {
+  id: 'id',
+  address: 'address',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
+
+
+export const UserNonceScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  nonce: 'nonce',
+  createdAt: 'createdAt'
+} as const
+
+export type UserNonceScalarFieldEnum = (typeof UserNonceScalarFieldEnum)[keyof typeof UserNonceScalarFieldEnum]
 
 
 export const DocumentScalarFieldEnum = {
@@ -89,6 +111,7 @@ export const DocumentScalarFieldEnum = {
   documentHash: 'documentHash',
   ownerId: 'ownerId',
   status: 'status',
+  merkleRoot: 'merkleRoot',
   blockchainTxHash: 'blockchainTxHash',
   anchoredAt: 'anchoredAt',
   createdAt: 'createdAt'
@@ -97,15 +120,17 @@ export const DocumentScalarFieldEnum = {
 export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
 
 
-export const SignatureScalarFieldEnum = {
+export const SignerScalarFieldEnum = {
   id: 'id',
   documentId: 'documentId',
-  signerId: 'signerId',
+  userId: 'userId',
   signatureHex: 'signatureHex',
-  signedAt: 'signedAt'
+  signedAt: 'signedAt',
+  signedWalletAddress: 'signedWalletAddress',
+  merkleProof: 'merkleProof'
 } as const
 
-export type SignatureScalarFieldEnum = (typeof SignatureScalarFieldEnum)[keyof typeof SignatureScalarFieldEnum]
+export type SignerScalarFieldEnum = (typeof SignerScalarFieldEnum)[keyof typeof SignerScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -114,6 +139,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -130,4 +163,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

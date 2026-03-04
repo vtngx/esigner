@@ -1,0 +1,39 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-8b88313fd8d7a65eec1b9bffc44844fccb0cae5b",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "userSourceNameMap": {
+    "contracts/SignatureAnchor.sol": "project/contracts/SignatureAnchor.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/SignatureAnchor.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\ncontract SignatureAnchor {\n\n    mapping(bytes32 => bool) public anchored;\n\n    event Anchored(bytes32 root);\n\n    function anchor(bytes32 root) public {\n        require(!anchored[root], \"Already anchored\");\n\n        anchored[root] = true;\n\n        emit Anchored(root);\n    }\n\n    function verify(bytes32 root) public view returns(bool) {\n        return anchored[root];\n    }\n}"
+      }
+    }
+  }
+}

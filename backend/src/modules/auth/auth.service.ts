@@ -1,9 +1,6 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { randomBytes } from 'crypto';
-import { ethers } from 'ethers';
-import { User } from 'src/generated/prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -12,37 +9,27 @@ export class AuthService {
     private readonly prisma: PrismaService,
   ) { }
 
-  generateNonce(): string {
-    return randomBytes(16).toString('hex');
-  }
-
-  async verifySignature(wallet: string, signature: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { walletAddress: wallet },
+  async register(username: string, password: string) {
+    const existing = await this.prisma.user.findUnique({
+      where: { username },
     });
-
-    if (!user || !user.nonce) {
-      throw new UnauthorizedException();
+    if (existing) {
+      throw new UnauthorizedException('Username already taken');
     }
-
-    const recovered = ethers.verifyMessage(user.nonce, signature);
-
-    if (recovered.toLowerCase() !== wallet.toLowerCase()) {
-      throw new UnauthorizedException();
-    }
-
-    // Clear nonce after use
-    await this.prisma.user.update({
-      where: { walletAddress: wallet },
-      data: { nonce: null },
+    const user = await this.prisma.user.create({
+      data: { username, password },
     });
-
     return user;
   }
 
-  async login(user: User) {
-    const payload = { sub: user.id, wallet: user.walletAddress };
-
+  async login(username: string, password: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { username },
+    });
+    if (!user || user.password !== password) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    const payload = { sub: user.id, username: user.username };
     return {
       access_token: this.jwt.sign(payload, { secret: process.env.JWT_SECRET, expiresIn: '7d' }),
     };
