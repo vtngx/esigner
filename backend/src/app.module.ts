@@ -8,6 +8,7 @@ import { TerminusModule } from '@nestjs/terminus';
 import { DocumentsModule } from './modules/documents/documents.module';
 import { BlockchainModule } from './modules/blockchain/blockchain.module';
 import { WalletsModule } from './modules/wallets/wallets.module';
+import { PdfExportModule } from './modules/pdf-export/pdf-export.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { WalletsModule } from './modules/wallets/wallets.module';
     WalletsModule,
     DocumentsModule,
     BlockchainModule,
+    PdfExportModule,
   ],
   controllers: [AppController],
   providers: [AppService],

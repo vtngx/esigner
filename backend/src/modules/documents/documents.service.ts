@@ -117,6 +117,23 @@ export class DocumentsService {
     return doc;
   }
 
+  async getDocumentWithSigners(id: string) {
+    const doc = await this.prisma.document.findUnique({
+      where: { id },
+      include: {
+        signers: {
+          include: {
+            user: { select: { id: true, username: true, wallets: { select: { address: true } } } },
+          }
+        }
+      },
+    });
+    if (!doc) {
+      throw new NotFoundException();
+    }
+    return doc;
+  }
+
   async sign(id: string, signature: string, user: User & { wallets: Wallet[] }) {
     if (!signature) {
       throw new BadRequestException('Missing signature')
