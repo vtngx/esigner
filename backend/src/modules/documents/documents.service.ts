@@ -324,15 +324,18 @@ export class DocumentsService {
       const recoveredWallet = verifyMessage(doc.documentHash, s.signatureHex);
       const userWallets = s.user.wallets.map(w => w.address.toLowerCase());
       const signatureValid = userWallets.includes(recoveredWallet.toLowerCase());
-      const leaf = createLeaf(doc.documentHash, recoveredWallet);
-      const merkleProofValid = verifyProof(leaf, s.merkleProof as string[], doc.merkleRoot as string);
+      const merkleProofValid = doc.status === DocumentStatus.ANCHORED ? verifyProof(
+        createLeaf(doc.documentHash, recoveredWallet),
+        s.merkleProof as string[],
+        doc.merkleRoot as string,
+      ) : false;
       return {
         signer: s.user.username,
         signatureValid,
         merkleProofValid,
         wallet: recoveredWallet,
         signedAt: s.signedAt,
-        reason: ''
+        reason: doc.status !== DocumentStatus.ANCHORED ? 'NOT_ANCHORED' : '',
       };
     });
     // if document has merkle root but is not anchored, update status back to signed to allow re-anchoring
