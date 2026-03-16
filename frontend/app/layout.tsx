@@ -4,6 +4,7 @@ import "./globals.css";
 import '@rainbow-me/rainbowkit/styles.css';
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Providers } from "./Providers";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <TooltipProvider>
           <Providers>{children}</Providers>
+          <Toaster position="top-center" />
         </TooltipProvider>
       </body>
     </html>

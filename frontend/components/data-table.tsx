@@ -88,6 +88,7 @@ import UploadDocumentModal from "./dropzone"
 import { useSummary } from "@/hooks/use-summary"
 import { useConnection, useSignMessage } from "wagmi"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
+import { toast } from "sonner"
 
 const columns: ColumnDef<Document>[] = [
   {
@@ -192,8 +193,10 @@ const columns: ColumnDef<Document>[] = [
           await verifyDoc({ documentId: row.original.id });
           await refetchDocs();
           await refetchSummary();
+          toast.success('Verify doc successfully!');
         } catch (error) {
           console.error('Failed to verify doc', error)
+          toast.error('Failed to verify doc');
         }
       }
 
@@ -202,8 +205,10 @@ const columns: ColumnDef<Document>[] = [
           await deleteDoc({ documentId: row.original.id });
           await refetchDocs();
           await refetchSummary();
+          toast.success('Delete doc successfully!');
         } catch (error) {
           console.error('Failed to delete doc', error)
+          toast.error('Failed to delete doc');
         }
       }
 
@@ -218,8 +223,10 @@ const columns: ColumnDef<Document>[] = [
           a.click();
           a.remove();
           window.URL.revokeObjectURL(url);
+          toast.success('Export doc successfully!');
         } catch (error) {
           console.error('Failed to export doc', error);
+          toast.error('Failed to export doc');
         }
       }
 
@@ -521,7 +528,6 @@ export function DataTable({ data }: { data: Document[] }) {
 function TableCellViewer({ item }: { item: Document }) {
   const isMobile = useIsMobile()
   const signMessage = useSignMessage()
-  const { openConnectModal } = useConnectModal()
   const { isConnected } = useConnection()
 
   const { data: user } = useUser()
@@ -549,10 +555,12 @@ function TableCellViewer({ item }: { item: Document }) {
       });
       setShowSigners(false);
       setSelectedSigners([]);
+      toast.success('Assigned signers successfully');
       await refetchDocs();
       await refetchSummary();
     } catch (error) {
       console.error('Failed to update signers', error)
+      toast.error('Failed to update signers');
     }
   }
 
@@ -570,10 +578,12 @@ function TableCellViewer({ item }: { item: Document }) {
         documentId: item.id,
         signature,
       });
+      toast.success('Signed doc successfully');
       await refetchDocs();
       await refetchSummary();
     } catch (error) {
       console.error('Failed to perform signing', error)
+      toast.error('Failed to perform signing');
     }
   }
 
@@ -585,10 +595,12 @@ function TableCellViewer({ item }: { item: Document }) {
       }
 
       await anchorDoc({ documentId: item.id });
+      toast.success('Anchored doc successfully');
       await refetchDocs();
       await refetchSummary();
     } catch (error) {
       console.error('Failed to perform anchoring', error)
+      toast.error('Failed to perform anchoring');
     }
   }
 
@@ -682,7 +694,7 @@ function TableCellViewer({ item }: { item: Document }) {
           {showConnectWarning && (
             <div className="rounded-lg bg-muted mt-auto p-4 pr-6 text-muted-foreground text-sm relative">
               <Button className='absolute top-2 right-2 size-6 rounded-full bg-black/60' onClick={() => setShowConnectWarning(false)}><X /></Button>
-              You need a connected wallet to sign this document, currently there's none.
+              You need a connected wallet for this action, currently there's none.
               Please go to <a href="/profile" className="underline text-black">Profile Page</a> and connect a wallet first.
             </div>
           )}

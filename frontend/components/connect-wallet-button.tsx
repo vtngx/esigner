@@ -7,6 +7,7 @@ import { Button } from "./ui/button"
 import { authFetch } from "@/lib/auth"
 import { useUser } from "@/hooks/use-user"
 import { AxiosError } from "axios"
+import { toast } from "sonner"
 
 type P = {
   setError: React.Dispatch<React.SetStateAction<{ wallet: string }>>
@@ -71,10 +72,11 @@ export default function WalletConnect({ setError, label = '', icon = null, succe
         if (!res.data?.id) throw new Error("Wallet verification failed")
 
         successCb()
-        alert("Wallet connected successfully 🎉")
+        toast.success('Wallet connected successfully 🎉');
       } catch (err) {
-        setError({ wallet: (err as any).response?.data?.message || "Wallet verification failed" })
+        // setError({ wallet: (err as any).response?.data?.message || "Wallet verification failed" })
         disconnect.mutate()
+        toast.error((err as any).response?.data?.message || "Wallet verification failed");
       } finally {
         refetchUser()
         setLoading(false)
@@ -83,6 +85,11 @@ export default function WalletConnect({ setError, label = '', icon = null, succe
 
     finishConnection()
   }, [isConnected, address, nonce, user]);
+
+  const disconn = () => {
+    disconnect.mutate();
+    toast.success('Wallet disconnected');
+  }
 
   return (
     <ConnectButton.Custom>
@@ -94,7 +101,7 @@ export default function WalletConnect({ setError, label = '', icon = null, succe
               {address?.slice(0, 8)}......{address?.slice(-8)}
             </p>
             <Button
-              onClick={() => disconnect.mutate()}
+              onClick={disconn}
               disabled={!account}
             >
               {'Disconnect'}
