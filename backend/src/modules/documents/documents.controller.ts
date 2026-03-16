@@ -89,6 +89,11 @@ export class DocumentsController {
     return this.documentsService.list(req.user);
   }
 
+  @Get('dashboard')
+  async dashboard(@Request() req: { user: User }) {
+    return this.documentsService.getSummary(req.user);
+  }
+
   @Get(':id')
   async findOne(
     @Param('id') id: string,

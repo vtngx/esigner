@@ -12,4 +12,9 @@ export class UsersController {
   async listWallets(@Request() req: { user: User }) {
     return this.usersService.listWallets(req.user);
   }
+
+  @Get('signers')
+  async listSigners(@Request() req: { user: User }) {
+    return this.usersService.listSigners(req.user);
+  }
 }

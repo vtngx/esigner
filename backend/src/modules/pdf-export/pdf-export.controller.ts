@@ -20,7 +20,7 @@ export class PdfExportController {
     const signatures = doc.signers.map(s => ({
       name: s.user.username,
       wallet: s.signedWalletAddress || '',
-      proof: s.merkleProof as string[],
+      proof: s.merkleProof as string[] || [],
       image: undefined, // TODO: add signature image if available
     }));
 

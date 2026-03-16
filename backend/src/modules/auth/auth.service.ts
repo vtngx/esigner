@@ -1,6 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +14,7 @@ export class AuthService {
       where: { username },
     });
     if (existing) {
-      throw new UnauthorizedException('Username already taken');
+      throw new BadRequestException('Username already taken');
     }
     const user = await this.prisma.user.create({
       data: { username, password },
@@ -27,7 +27,7 @@ export class AuthService {
       where: { username },
     });
     if (!user || user.password !== password) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new BadRequestException('Invalid credentials');
     }
     const payload = { sub: user.id, username: user.username };
     return {

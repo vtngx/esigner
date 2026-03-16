@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { User } from 'src/generated/prisma/client';
 import { ConnectWalletDto } from './dto/connect.dto';
@@ -34,23 +34,27 @@ export class WalletsService {
   }
 
   async connect(body: ConnectWalletDto, user: User) {
-    const uNonce = await this.prisma.userNonce.findUnique({
-      where: { nonce: body.nonce, userId: user.id },
-    });
-    if (!uNonce) {
-      throw new UnauthorizedException('Invalid nonce');
-    }
     // Check if wallet is already connected
     const existingWallet = await this.prisma.wallet.findUnique({
       where: { address: body.address },
     });
     if (existingWallet) {
-      throw new UnauthorizedException('Wallet already connected');
+      if (existingWallet?.userId !== user.id) {
+        throw new ForbiddenException('Wallet belongs to another user')
+      }
+      return existingWallet;
+    }
+    // Validate nonce
+    const uNonce = await this.prisma.userNonce.findUnique({
+      where: { nonce: body.nonce, userId: user.id },
+    });
+    if (!uNonce) {
+      throw new BadRequestException('Invalid nonce');
     }
     // Recover address from signature and compare
     const recovered = ethers.verifyMessage(body.nonce, body.signature);
     if (recovered.toLowerCase() !== body.address.toLowerCase()) {
-      throw new UnauthorizedException('Signature does not match address');
+      throw new BadRequestException('Signature does not match address');
     }
     // Create wallet record
     const wallet = await this.prisma.wallet.create({

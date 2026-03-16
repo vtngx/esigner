@@ -3,18 +3,17 @@ import {
   NotFoundException,
   ForbiddenException,
   BadRequestException,
-  UnauthorizedException,
   InternalServerErrorException,
 } from '@nestjs/common';
 import { readFileSync } from 'node:fs';
 import { unlink } from 'node:fs/promises';
 import { keccak256, verifyMessage } from 'ethers';
-import { createLeaf, generateMerkleRoot, verifyProof } from 'src/helpers/crypto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AssignSignersDto } from './dto/assign-signers.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
 import { BlockchainService } from '../blockchain/blockchain.service';
-import { DocumentStatus, Signer, User, Wallet } from 'src/generated/prisma/client';
+import { createLeaf, generateMerkleRoot, verifyProof } from 'src/helpers/crypto';
+import { Document, DocumentStatus, Signer, User, Wallet } from 'src/generated/prisma/client';
 
 @Injectable()
 export class DocumentsService {
@@ -23,18 +22,46 @@ export class DocumentsService {
     private readonly blockchainService: BlockchainService,
   ) { }
 
-  async create(file: Express.Multer.File & { hash: string }, user: User) {
+  async getSummary(user: User) {
+    const owned = await this.prisma.document.count({
+      where: { ownerId: user.id },
+    });
+    // count documents where user is a signer and has not signed yet
+    const assigned = await this.prisma.document.count({
+      where: {
+        signers: {
+          some: {
+            userId: user.id,
+            signatureHex: null,
+          },
+        },
+      },
+    });
+    // count documents where user is a signer and has signed
+    const signed = await this.prisma.document.count({
+      where: {
+        signers: {
+          some: {
+            userId: user.id,
+            signatureHex: { not: null },
+          },
+        },
+      },
+    });
+    return {
+      owned,
+      assigned,
+      signed,
+    };
+  }
+
+  async create(file: Express.Multer.File & { hash: string }, user: User): Promise<Document> {
     const document = await this.prisma.document.create({
       data: {
-        name: file.filename,
+        name: file.originalname,
         storageUrl: file.path,
         documentHash: file.hash,
         ownerId: user.id,
-      },
-      select: {
-        id: true,
-        name: true,
-        createdAt: true,
       },
     });
     return document;
@@ -83,18 +110,26 @@ export class DocumentsService {
     return signers;
   }
 
-  async list(user: User) {
-    return this.prisma.document.findMany({
+  async list(user: User): Promise<(Document & { isOwner?: boolean, isSigner?: boolean })[]> {
+    const docs = await this.prisma.document.findMany({
       where: {
-        ownerId: user.id,
+        OR: [
+          { ownerId: user.id },
+          { signers: { some: { userId: user.id } } },
+        ]
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy: { createdAt: 'desc' },
       include: {
         owner: { select: { id: true, username: true } },
-        signers: { select: { id: true, signatureHex: true, signedAt: true } },
+        signers: { include: { user: true } },
       },
+    });
+    return docs.map(d => {
+      return {
+        ...d,
+        isOwner: d.ownerId === user.id,
+        isSigner: !!d.signers?.some(s => s.userId === user.id),
+      };
     });
   }
 
@@ -134,7 +169,7 @@ export class DocumentsService {
     return doc;
   }
 
-  async sign(id: string, signature: string, user: User & { wallets: Wallet[] }) {
+  async sign(id: string, signature: string, user: User & { wallets: Wallet[] }): Promise<Signer> {
     if (!signature) {
       throw new BadRequestException('Missing signature')
     }
@@ -153,7 +188,7 @@ export class DocumentsService {
       where: { documentId: doc.id, userId: user.id },
     });
     if (!signerData) {
-      throw new UnauthorizedException('Not an assigned signer');
+      throw new ForbiddenException('Not an assigned signer');
     }
     if (!!signerData.signedAt || !!signerData.signatureHex) {
       throw new BadRequestException('Already signed');
@@ -161,7 +196,7 @@ export class DocumentsService {
     // validate signature matches document hash and signer wallet
     const recoveredAddress = verifyMessage(doc.documentHash, signature);
     if (!user.wallets.some(wallet => wallet.address.toLowerCase() === recoveredAddress.toLowerCase())) {
-      throw new UnauthorizedException('Signature does not match any connected wallet');
+      throw new ForbiddenException('Signature does not match any connected wallet');
     }
     // store signature and update document status
     const updatedSigner = await this.prisma.signer.update({
@@ -268,7 +303,8 @@ export class DocumentsService {
     const recalculatedHash = keccak256(fileBuffer);
     const hashValid = recalculatedHash === doc.documentHash;
     // summarize signer status
-    const signersStatus = `${doc.signers.filter(s => s.signatureHex).length}/${doc.signers.length} signatures`;
+    const signedSigners = doc.signers.filter(s => s.signatureHex);
+    const signersStatus = `${signedSigners.length}/${doc.signers.length} signatures`;
     // if document has merkle root, verify against blockchain
     const anchored = doc.merkleRoot
       ? await this.blockchainService.verifyRoot(doc.merkleRoot)
@@ -280,6 +316,8 @@ export class DocumentsService {
           signer: s.user.username,
           signatureValid: false,
           merkleProofValid: false,
+          wallet: null as (string | null),
+          signedAt: null as (Date | null),
           reason: "NOT_SIGNED"
         };
       }
@@ -290,18 +328,27 @@ export class DocumentsService {
       const merkleProofValid = verifyProof(leaf, s.merkleProof as string[], doc.merkleRoot as string);
       return {
         signer: s.user.username,
-        wallet: recoveredWallet,
         signatureValid,
         merkleProofValid,
-        signedAt: s.signedAt
+        wallet: recoveredWallet,
+        signedAt: s.signedAt,
+        reason: ''
       };
     });
     // if document has merkle root but is not anchored, update status back to signed to allow re-anchoring
-    if (doc.merkleRoot && doc.status === DocumentStatus.ANCHORED && !anchored) {
+    if (
+      (doc.merkleRoot && doc.status === DocumentStatus.ANCHORED && !anchored) ||
+      (!doc.signers.length && doc.status !== DocumentStatus.DRAFT) ||
+      signedSigners.length !== doc.signers.length
+    ) {
       await this.prisma.document.update({
         where: { id: doc.id },
         data: {
-          status: DocumentStatus.SIGNED,
+          status: !doc.signers?.length
+            ? DocumentStatus.DRAFT
+            : (signedSigners.length !== doc.signers.length)
+              ? DocumentStatus.SIGNING
+              : DocumentStatus.SIGNED,
           blockchainTxHash: null,
           anchoredAt: null,
         },
@@ -336,13 +383,16 @@ export class DocumentsService {
       where: { id },
       include: { signers: true },
     });
-    // only allow deletion if user is owner and there are no assigned signers
+    // only allow deletion if user is owner and document is not anchored
     if (!doc || doc.ownerId !== user.id) {
       throw new NotFoundException();
     }
-    if (!!doc.signers.length) {
-      throw new BadRequestException('Cannot delete document with assigned signers');
+    if (doc.status === DocumentStatus.ANCHORED) {
+      throw new BadRequestException('Cannot delete ANCHORED documents');
     }
+    await this.prisma.signer.deleteMany({
+      where: { documentId: doc.id },
+    })
     await unlink(doc.storageUrl);
     return await this.prisma.document.delete({
       where: { id: doc.id },

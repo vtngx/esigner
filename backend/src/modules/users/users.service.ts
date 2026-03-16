@@ -13,4 +13,12 @@ export class UsersService {
       where: { userId: user.id },
     });
   }
+
+  async listSigners(user: User) {
+    return await this.prisma.user.findMany({
+      include: { wallets: true },
+      orderBy: { createdAt: 'desc' }
+    });
+    // return users?.filter(u => !!u.wallets.length);
+  }
 }
