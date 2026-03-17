@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Queue } from 'bullmq';
 import { ACTION_LOG_QUEUE_NAME, QUEUE_ACTIONS } from './action-log.interface';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { ActionLog } from 'src/generated/prisma/client';
+import { ActionLog, User } from 'src/generated/prisma/client';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Injectable()
@@ -20,11 +20,9 @@ export class ActionLogService {
     });
   }
 
-  async list(query: PaginationQueryDto) {
-    const { page = 1, limit = 10 } = query;
+  async list(user: User) {
     return this.prisma.actionLog.findMany({
-      take: limit,
-      skip: (page - 1) * limit,
+      where: { userId: user.id },
       orderBy: { createdAt: 'desc' },
       include: { user: true },
     });

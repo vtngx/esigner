@@ -121,10 +121,7 @@ export class DocumentsController {
   }
 
   @Get()
-  async list(
-    @Query() query: PaginationQueryDto,
-    @Request() req: { user: User },
-  ) {
+  async list(@Request() req: { user: User }) {
     return this.documentsService.list(req.user);
   }
 
@@ -145,7 +142,7 @@ export class DocumentsController {
   @ActionLog({
     action: ActionType.DOCUMENT_VERIFY,
     entity: 'document',
-    getEntityId: (_, res) => res?.id,
+    getEntityId: (_, res) => res?.doc?.id,
     getMetadata: (_, res) => res,
   })
   async verifyIntegrity(@Param('id') id: string) {
