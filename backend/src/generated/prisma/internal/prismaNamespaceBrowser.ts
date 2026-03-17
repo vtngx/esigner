@@ -55,7 +55,8 @@ export const ModelName = {
   Wallet: 'Wallet',
   UserNonce: 'UserNonce',
   Document: 'Document',
-  Signer: 'Signer'
+  Signer: 'Signer',
+  ActionLog: 'ActionLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -131,6 +132,21 @@ export const SignerScalarFieldEnum = {
 } as const
 
 export type SignerScalarFieldEnum = (typeof SignerScalarFieldEnum)[keyof typeof SignerScalarFieldEnum]
+
+
+export const ActionLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  entity: 'entity',
+  entityId: 'entityId',
+  metadata: 'metadata',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+} as const
+
+export type ActionLogScalarFieldEnum = (typeof ActionLogScalarFieldEnum)[keyof typeof ActionLogScalarFieldEnum]
 
 
 export const SortOrder = {

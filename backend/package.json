@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/bullmq": "^11.0.4",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^11.0.2",
@@ -29,6 +30,7 @@
     "@nestjs/terminus": "^11.1.1",
     "@prisma/adapter-pg": "^7.4.2",
     "@prisma/client": "^7.4.2",
+    "bullmq": "^5.71.0",
     "ethers": "^6.16.0",
     "merkletreejs": "^0.6.0",
     "passport": "^0.7.0",

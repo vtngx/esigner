@@ -17,3 +17,18 @@ export const DocumentStatus = {
 } as const
 
 export type DocumentStatus = (typeof DocumentStatus)[keyof typeof DocumentStatus]
+
+
+export const ActionType = {
+  USER_LOGIN: 'USER_LOGIN',
+  WALLET_CONNECT: 'WALLET_CONNECT',
+  DOCUMENT_CREATE: 'DOCUMENT_CREATE',
+  DOCUMENT_UPDATE_SIGNER: 'DOCUMENT_UPDATE_SIGNER',
+  DOCUMENT_SIGN: 'DOCUMENT_SIGN',
+  DOCUMENT_ANCHOR: 'DOCUMENT_ANCHOR',
+  DOCUMENT_VERIFY: 'DOCUMENT_VERIFY',
+  DOCUMENT_EXPORT: 'DOCUMENT_EXPORT',
+  DOCUMENT_DELETE: 'DOCUMENT_DELETE'
+} as const
+
+export type ActionType = (typeof ActionType)[keyof typeof ActionType]

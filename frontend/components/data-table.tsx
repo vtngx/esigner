@@ -626,16 +626,22 @@ function TableCellViewer({ item }: { item: Document }) {
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-3">
                 <Label htmlFor="type">Type</Label>
-                <Input id="type" defaultValue={[item.isOwner && 'Owner', item.isSigner && 'Signer'].filter(i => !!i).join(',')} readOnly />
+                <div className="rounded-lg border px-2 py-1.5">
+                  {[item.isOwner && 'Owner', item.isSigner && 'Signer'].filter(i => !!i).join(',')}
+                </div>
               </div>
               <div className="flex flex-col gap-3">
                 <Label htmlFor="status">Status</Label>
-                <Input id="status" defaultValue={item.status} readOnly />
+                <div className="rounded-lg border px-2 py-1.5">
+                  {item.status}
+                </div>
               </div>
             </div>
             <div className="flex flex-col gap-3">
               <Label htmlFor="owner">Owner</Label>
-              <Input id="owner" defaultValue={`${item.owner.username} ${item.isOwner ? '(me)' : ''}`} readOnly />
+              <div className="rounded-lg border px-2 py-1.5">
+                {`${item.owner.username} ${item.isOwner ? '(me)' : ''}`}
+              </div>
             </div>
             <div className="flex flex-col gap-3">
               <Label htmlFor="signers">Signers</Label>

@@ -28,7 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               orientation="vertical"
               className="mr-2 my-1.5"
             />
-            <Breadcrumb>
+            {/* <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="#">
@@ -40,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <BreadcrumbPage>Data Fetching</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
-            </Breadcrumb>
+            </Breadcrumb> */}
           </div>
         </header>
         {children}

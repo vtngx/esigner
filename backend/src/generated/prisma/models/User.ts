@@ -178,6 +178,7 @@ export type UserWhereInput = {
   documents?: Prisma.DocumentListRelationFilter
   signers?: Prisma.SignerListRelationFilter
   nonce?: Prisma.XOR<Prisma.UserNonceNullableScalarRelationFilter, Prisma.UserNonceWhereInput> | null
+  actionLogs?: Prisma.ActionLogListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -189,6 +190,7 @@ export type UserOrderByWithRelationInput = {
   documents?: Prisma.DocumentOrderByRelationAggregateInput
   signers?: Prisma.SignerOrderByRelationAggregateInput
   nonce?: Prisma.UserNonceOrderByWithRelationInput
+  actionLogs?: Prisma.ActionLogOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -203,6 +205,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   documents?: Prisma.DocumentListRelationFilter
   signers?: Prisma.SignerListRelationFilter
   nonce?: Prisma.XOR<Prisma.UserNonceNullableScalarRelationFilter, Prisma.UserNonceWhereInput> | null
+  actionLogs?: Prisma.ActionLogListRelationFilter
 }, "id" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -234,6 +237,7 @@ export type UserCreateInput = {
   documents?: Prisma.DocumentCreateNestedManyWithoutOwnerInput
   signers?: Prisma.SignerCreateNestedManyWithoutUserInput
   nonce?: Prisma.UserNonceCreateNestedOneWithoutUserInput
+  actionLogs?: Prisma.ActionLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -245,6 +249,7 @@ export type UserUncheckedCreateInput = {
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOwnerInput
   signers?: Prisma.SignerUncheckedCreateNestedManyWithoutUserInput
   nonce?: Prisma.UserNonceUncheckedCreateNestedOneWithoutUserInput
+  actionLogs?: Prisma.ActionLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -256,6 +261,7 @@ export type UserUpdateInput = {
   documents?: Prisma.DocumentUpdateManyWithoutOwnerNestedInput
   signers?: Prisma.SignerUpdateManyWithoutUserNestedInput
   nonce?: Prisma.UserNonceUpdateOneWithoutUserNestedInput
+  actionLogs?: Prisma.ActionLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -267,6 +273,7 @@ export type UserUncheckedUpdateInput = {
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOwnerNestedInput
   signers?: Prisma.SignerUncheckedUpdateManyWithoutUserNestedInput
   nonce?: Prisma.UserNonceUncheckedUpdateOneWithoutUserNestedInput
+  actionLogs?: Prisma.ActionLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -314,6 +321,11 @@ export type UserMinOrderByAggregateInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -384,6 +396,22 @@ export type UserUpdateOneRequiredWithoutSignersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSignersInput, Prisma.UserUpdateWithoutSignersInput>, Prisma.UserUncheckedUpdateWithoutSignersInput>
 }
 
+export type UserCreateNestedOneWithoutActionLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutActionLogsInput, Prisma.UserUncheckedCreateWithoutActionLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutActionLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutActionLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutActionLogsInput, Prisma.UserUncheckedCreateWithoutActionLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutActionLogsInput
+  upsert?: Prisma.UserUpsertWithoutActionLogsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutActionLogsInput, Prisma.UserUpdateWithoutActionLogsInput>, Prisma.UserUncheckedUpdateWithoutActionLogsInput>
+}
+
 export type UserCreateWithoutWalletsInput = {
   id?: string
   username: string
@@ -392,6 +420,7 @@ export type UserCreateWithoutWalletsInput = {
   documents?: Prisma.DocumentCreateNestedManyWithoutOwnerInput
   signers?: Prisma.SignerCreateNestedManyWithoutUserInput
   nonce?: Prisma.UserNonceCreateNestedOneWithoutUserInput
+  actionLogs?: Prisma.ActionLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutWalletsInput = {
@@ -402,6 +431,7 @@ export type UserUncheckedCreateWithoutWalletsInput = {
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOwnerInput
   signers?: Prisma.SignerUncheckedCreateNestedManyWithoutUserInput
   nonce?: Prisma.UserNonceUncheckedCreateNestedOneWithoutUserInput
+  actionLogs?: Prisma.ActionLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutWalletsInput = {
@@ -428,6 +458,7 @@ export type UserUpdateWithoutWalletsInput = {
   documents?: Prisma.DocumentUpdateManyWithoutOwnerNestedInput
   signers?: Prisma.SignerUpdateManyWithoutUserNestedInput
   nonce?: Prisma.UserNonceUpdateOneWithoutUserNestedInput
+  actionLogs?: Prisma.ActionLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutWalletsInput = {
@@ -438,6 +469,7 @@ export type UserUncheckedUpdateWithoutWalletsInput = {
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOwnerNestedInput
   signers?: Prisma.SignerUncheckedUpdateManyWithoutUserNestedInput
   nonce?: Prisma.UserNonceUncheckedUpdateOneWithoutUserNestedInput
+  actionLogs?: Prisma.ActionLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNonceInput = {
@@ -448,6 +480,7 @@ export type UserCreateWithoutNonceInput = {
   wallets?: Prisma.WalletCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentCreateNestedManyWithoutOwnerInput
   signers?: Prisma.SignerCreateNestedManyWithoutUserInput
+  actionLogs?: Prisma.ActionLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNonceInput = {
@@ -458,6 +491,7 @@ export type UserUncheckedCreateWithoutNonceInput = {
   wallets?: Prisma.WalletUncheckedCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOwnerInput
   signers?: Prisma.SignerUncheckedCreateNestedManyWithoutUserInput
+  actionLogs?: Prisma.ActionLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNonceInput = {
@@ -484,6 +518,7 @@ export type UserUpdateWithoutNonceInput = {
   wallets?: Prisma.WalletUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutOwnerNestedInput
   signers?: Prisma.SignerUpdateManyWithoutUserNestedInput
+  actionLogs?: Prisma.ActionLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNonceInput = {
@@ -494,6 +529,7 @@ export type UserUncheckedUpdateWithoutNonceInput = {
   wallets?: Prisma.WalletUncheckedUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOwnerNestedInput
   signers?: Prisma.SignerUncheckedUpdateManyWithoutUserNestedInput
+  actionLogs?: Prisma.ActionLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDocumentsInput = {
@@ -504,6 +540,7 @@ export type UserCreateWithoutDocumentsInput = {
   wallets?: Prisma.WalletCreateNestedManyWithoutUserInput
   signers?: Prisma.SignerCreateNestedManyWithoutUserInput
   nonce?: Prisma.UserNonceCreateNestedOneWithoutUserInput
+  actionLogs?: Prisma.ActionLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDocumentsInput = {
@@ -514,6 +551,7 @@ export type UserUncheckedCreateWithoutDocumentsInput = {
   wallets?: Prisma.WalletUncheckedCreateNestedManyWithoutUserInput
   signers?: Prisma.SignerUncheckedCreateNestedManyWithoutUserInput
   nonce?: Prisma.UserNonceUncheckedCreateNestedOneWithoutUserInput
+  actionLogs?: Prisma.ActionLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDocumentsInput = {
@@ -540,6 +578,7 @@ export type UserUpdateWithoutDocumentsInput = {
   wallets?: Prisma.WalletUpdateManyWithoutUserNestedInput
   signers?: Prisma.SignerUpdateManyWithoutUserNestedInput
   nonce?: Prisma.UserNonceUpdateOneWithoutUserNestedInput
+  actionLogs?: Prisma.ActionLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDocumentsInput = {
@@ -550,6 +589,7 @@ export type UserUncheckedUpdateWithoutDocumentsInput = {
   wallets?: Prisma.WalletUncheckedUpdateManyWithoutUserNestedInput
   signers?: Prisma.SignerUncheckedUpdateManyWithoutUserNestedInput
   nonce?: Prisma.UserNonceUncheckedUpdateOneWithoutUserNestedInput
+  actionLogs?: Prisma.ActionLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSignersInput = {
@@ -560,6 +600,7 @@ export type UserCreateWithoutSignersInput = {
   wallets?: Prisma.WalletCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentCreateNestedManyWithoutOwnerInput
   nonce?: Prisma.UserNonceCreateNestedOneWithoutUserInput
+  actionLogs?: Prisma.ActionLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSignersInput = {
@@ -570,6 +611,7 @@ export type UserUncheckedCreateWithoutSignersInput = {
   wallets?: Prisma.WalletUncheckedCreateNestedManyWithoutUserInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOwnerInput
   nonce?: Prisma.UserNonceUncheckedCreateNestedOneWithoutUserInput
+  actionLogs?: Prisma.ActionLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSignersInput = {
@@ -596,6 +638,7 @@ export type UserUpdateWithoutSignersInput = {
   wallets?: Prisma.WalletUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutOwnerNestedInput
   nonce?: Prisma.UserNonceUpdateOneWithoutUserNestedInput
+  actionLogs?: Prisma.ActionLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSignersInput = {
@@ -605,6 +648,67 @@ export type UserUncheckedUpdateWithoutSignersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   wallets?: Prisma.WalletUncheckedUpdateManyWithoutUserNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutOwnerNestedInput
+  nonce?: Prisma.UserNonceUncheckedUpdateOneWithoutUserNestedInput
+  actionLogs?: Prisma.ActionLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutActionLogsInput = {
+  id?: string
+  username: string
+  password?: string | null
+  createdAt?: Date | string
+  wallets?: Prisma.WalletCreateNestedManyWithoutUserInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutOwnerInput
+  signers?: Prisma.SignerCreateNestedManyWithoutUserInput
+  nonce?: Prisma.UserNonceCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutActionLogsInput = {
+  id?: string
+  username: string
+  password?: string | null
+  createdAt?: Date | string
+  wallets?: Prisma.WalletUncheckedCreateNestedManyWithoutUserInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOwnerInput
+  signers?: Prisma.SignerUncheckedCreateNestedManyWithoutUserInput
+  nonce?: Prisma.UserNonceUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutActionLogsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutActionLogsInput, Prisma.UserUncheckedCreateWithoutActionLogsInput>
+}
+
+export type UserUpsertWithoutActionLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutActionLogsInput, Prisma.UserUncheckedUpdateWithoutActionLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutActionLogsInput, Prisma.UserUncheckedCreateWithoutActionLogsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutActionLogsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutActionLogsInput, Prisma.UserUncheckedUpdateWithoutActionLogsInput>
+}
+
+export type UserUpdateWithoutActionLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallets?: Prisma.WalletUpdateManyWithoutUserNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutOwnerNestedInput
+  signers?: Prisma.SignerUpdateManyWithoutUserNestedInput
+  nonce?: Prisma.UserNonceUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutActionLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  wallets?: Prisma.WalletUncheckedUpdateManyWithoutUserNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutOwnerNestedInput
+  signers?: Prisma.SignerUncheckedUpdateManyWithoutUserNestedInput
   nonce?: Prisma.UserNonceUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -617,12 +721,14 @@ export type UserCountOutputType = {
   wallets: number
   documents: number
   signers: number
+  actionLogs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   wallets?: boolean | UserCountOutputTypeCountWalletsArgs
   documents?: boolean | UserCountOutputTypeCountDocumentsArgs
   signers?: boolean | UserCountOutputTypeCountSignersArgs
+  actionLogs?: boolean | UserCountOutputTypeCountActionLogsArgs
 }
 
 /**
@@ -656,6 +762,13 @@ export type UserCountOutputTypeCountSignersArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.SignerWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountActionLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ActionLogWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -666,6 +779,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   documents?: boolean | Prisma.User$documentsArgs<ExtArgs>
   signers?: boolean | Prisma.User$signersArgs<ExtArgs>
   nonce?: boolean | Prisma.User$nonceArgs<ExtArgs>
+  actionLogs?: boolean | Prisma.User$actionLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -696,6 +810,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   documents?: boolean | Prisma.User$documentsArgs<ExtArgs>
   signers?: boolean | Prisma.User$signersArgs<ExtArgs>
   nonce?: boolean | Prisma.User$nonceArgs<ExtArgs>
+  actionLogs?: boolean | Prisma.User$actionLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -708,6 +823,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     documents: Prisma.$DocumentPayload<ExtArgs>[]
     signers: Prisma.$SignerPayload<ExtArgs>[]
     nonce: Prisma.$UserNoncePayload<ExtArgs> | null
+    actionLogs: Prisma.$ActionLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1112,6 +1228,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   documents<T extends Prisma.User$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   signers<T extends Prisma.User$signersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$signersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SignerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   nonce<T extends Prisma.User$nonceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$nonceArgs<ExtArgs>>): Prisma.Prisma__UserNonceClient<runtime.Types.Result.GetResult<Prisma.$UserNoncePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  actionLogs<T extends Prisma.User$actionLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$actionLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActionLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1621,6 +1738,30 @@ export type User$nonceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   include?: Prisma.UserNonceInclude<ExtArgs> | null
   where?: Prisma.UserNonceWhereInput
+}
+
+/**
+ * User.actionLogs
+ */
+export type User$actionLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ActionLog
+   */
+  select?: Prisma.ActionLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ActionLog
+   */
+  omit?: Prisma.ActionLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ActionLogInclude<ExtArgs> | null
+  where?: Prisma.ActionLogWhereInput
+  orderBy?: Prisma.ActionLogOrderByWithRelationInput | Prisma.ActionLogOrderByWithRelationInput[]
+  cursor?: Prisma.ActionLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ActionLogScalarFieldEnum | Prisma.ActionLogScalarFieldEnum[]
 }
 
 /**

@@ -1,9 +1,13 @@
 import { type Response } from 'express';
 import { PdfExportService } from './pdf-export.service';
-import { Controller, Get, Param, Res } from '@nestjs/common';
+import { Controller, Get, Param, Res, UseGuards } from '@nestjs/common';
 import { DocumentsService } from '../documents/documents.service';
+import { ActionLog } from 'src/decorators/action-log.decorator';
+import { ActionType } from 'src/generated/prisma/enums';
+import { JwtAuthGuard } from '../auth/jwt.guard';
 
 @Controller('pdf-export')
+@UseGuards(JwtAuthGuard)
 export class PdfExportController {
   constructor(
     private readonly documentService: DocumentsService,
@@ -11,6 +15,11 @@ export class PdfExportController {
   ) { }
 
   @Get(':documentId/export')
+  @ActionLog({
+    action: ActionType.DOCUMENT_EXPORT,
+    entity: 'document',
+    getEntityId: (req, _) => req.params.documentId,
+  })
   async exportDocumentToPDF(
     @Param('documentId') documentId: string,
     @Res() res: Response,

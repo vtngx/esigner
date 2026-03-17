@@ -9,9 +9,19 @@ import { DocumentsModule } from './modules/documents/documents.module';
 import { BlockchainModule } from './modules/blockchain/blockchain.module';
 import { WalletsModule } from './modules/wallets/wallets.module';
 import { PdfExportModule } from './modules/pdf-export/pdf-export.module';
+import { BullModule } from '@nestjs/bullmq';
+import { ActionLogModule } from './modules/action-log/action-log.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ActionLogInterceptor } from './interceptors/action-log.interceptor';
 
 @Module({
   imports: [
+    BullModule.forRoot({
+      connection: {
+        host: process.env.REDIS_HOST,
+        port: 6379,
+      },
+    }),
     PrismaModule,
     TerminusModule,
     AuthModule,
@@ -20,8 +30,15 @@ import { PdfExportModule } from './modules/pdf-export/pdf-export.module';
     DocumentsModule,
     BlockchainModule,
     PdfExportModule,
+    ActionLogModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ActionLogInterceptor,
+    }
+  ],
 })
 export class AppModule {}

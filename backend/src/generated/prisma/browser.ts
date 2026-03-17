@@ -42,3 +42,8 @@ export type Document = Prisma.DocumentModel
  * 
  */
 export type Signer = Prisma.SignerModel
+/**
+ * Model ActionLog
+ * 
+ */
+export type ActionLog = Prisma.ActionLogModel

@@ -9,14 +9,15 @@ datasource db {
 
 // list of models
 model User {
-  id        String     @id @default(uuid())
-  username  String     @unique
-  password  String?
-  wallets   Wallet[]
-  createdAt DateTime   @default(now())
-  documents Document[] @relation("OwnerDocs")
-  signers   Signer[]
-  nonce     UserNonce?
+  id         String      @id @default(uuid())
+  username   String      @unique
+  password   String?
+  wallets    Wallet[]
+  createdAt  DateTime    @default(now())
+  documents  Document[]  @relation("OwnerDocs")
+  signers    Signer[]
+  nonce      UserNonce?
+  actionLogs ActionLog[]
 }
 
 model Wallet {
@@ -69,4 +70,30 @@ enum DocumentStatus {
   SIGNING
   SIGNED
   ANCHORED
+}
+
+model ActionLog {
+  id        String     @id @default(uuid())
+  userId    String?
+  action    ActionType
+  entity    String?
+  entityId  String?
+  metadata  Json?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime   @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+}
+
+enum ActionType {
+  USER_LOGIN
+  WALLET_CONNECT
+  DOCUMENT_CREATE
+  DOCUMENT_UPDATE_SIGNER
+  DOCUMENT_SIGN
+  DOCUMENT_ANCHOR
+  DOCUMENT_VERIFY
+  DOCUMENT_EXPORT
+  DOCUMENT_DELETE
 }

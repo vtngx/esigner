@@ -6,6 +6,7 @@ import { useDropzone } from "react-dropzone"
 import { Button } from "./ui/button"
 import { filesize } from "filesize"
 import { useSummary } from "@/hooks/use-summary"
+import { toast } from "sonner"
 
 type Props = {
   open: boolean
@@ -14,9 +15,9 @@ type Props = {
 
 export default function UploadDocumentModal({ open, onClose }: Props) {
   const [file, setFile] = useState<File | null>(null)
-  const uploadMutation = useUploadDocument()
   const { refetch: refetchDocs } = useDocuments()
   const { refetch: refetchSummary } = useSummary()
+  const { mutateAsync: uploadDoc, isPending } = useUploadDocument()
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const selected = acceptedFiles[0]
@@ -36,17 +37,14 @@ export default function UploadDocumentModal({ open, onClose }: Props) {
 
   const handleUpload = async () => {
     try {
-      if (!file) return
-      uploadMutation.mutate(file, {
-        onSuccess: () => {
-          setFile(null)
-          onClose()
-        }
-      })
+      if (!file) return;
+      await uploadDoc(file);
       await refetchDocs();
       await refetchSummary();
+      setFile(null);
+      onClose();
     } catch (e) {
-
+      toast.error('Uploading failed!')
     }
   }
 
@@ -84,9 +82,9 @@ export default function UploadDocumentModal({ open, onClose }: Props) {
           </Button>
           <Button
             onClick={handleUpload}
-            disabled={!file || uploadMutation.isPending}
+            disabled={!file || isPending}
           >
-            {uploadMutation.isPending ? "Uploading..." : "Upload"}
+            {isPending ? "Uploading..." : "Upload"}
           </Button>
         </div>
       </div>

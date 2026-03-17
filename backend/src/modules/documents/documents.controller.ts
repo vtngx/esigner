@@ -11,6 +11,7 @@ import {
   UploadedFile,
   UseInterceptors,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { extname } from 'node:path';
 import { diskStorage } from 'multer';
@@ -18,9 +19,11 @@ import { JwtAuthGuard } from '../auth/jwt.guard';
 import { DocumentsService } from './documents.service';
 import { FileHashPipe } from 'src/pipes/file-hash.pipe';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { User, Wallet } from 'src/generated/prisma/client';
+import { ActionType, User, Wallet } from 'src/generated/prisma/client';
 import { AssignSignersDto } from './dto/assign-signers.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
+import { ActionLog } from 'src/decorators/action-log.decorator';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Controller('documents')
 @UseGuards(JwtAuthGuard)
@@ -51,6 +54,12 @@ export class DocumentsController {
       },
     }),
   }))
+  @ActionLog({
+    action: ActionType.DOCUMENT_CREATE,
+    entity: 'document',
+    getEntityId: (_, res) => res?.id,
+    getMetadata: (_, res) => ({ name: res.name, documentHash: res.documentHash }),
+  })
   async upload(
     @Request() req: { user: User },
     @UploadedFile(new FileHashPipe()) file: Express.Multer.File & { hash: string },
@@ -59,6 +68,12 @@ export class DocumentsController {
   }
 
   @Post(':id/signers')
+  @ActionLog({
+    action: ActionType.DOCUMENT_UPDATE_SIGNER,
+    entity: 'document',
+    getEntityId: (_, res) => res?.id,
+    getMetadata: (req, _) => ({ signers: req.body.signerUsernames }),
+  })
   async assignSigners(
     @Param('id') id: string,
     @Request() req: { user: User },
@@ -68,6 +83,17 @@ export class DocumentsController {
   }
 
   @Post(':id/sign')
+  @ActionLog({
+    action: ActionType.DOCUMENT_SIGN,
+    entity: 'document',
+    getEntityId: (_, res) => res?.id,
+    getMetadata: (_, res) => ({
+      signatureHex: res.signatureHex,
+      signedAt: res.signedAt,
+      signedWalletAddress: res.signedWalletAddress,
+      merkleProof: res.merkleProof,
+    }),
+  })
   async sign(
     @Param('id') id: string,
     @Request() req: { user: User & { wallets: Wallet[] } },
@@ -77,6 +103,16 @@ export class DocumentsController {
   }
 
   @Post(':id/anchor')
+  @ActionLog({
+    action: ActionType.DOCUMENT_ANCHOR,
+    entity: 'document',
+    getEntityId: (_, res) => res?.id,
+    getMetadata: (_, res) => ({
+      merkleRoot: res.merkleRoot,
+      blockchainTxHash: res.blockchainTxHash,
+      anchoredAt: res.anchoredAt,
+    }),
+  })
   async anchor(
     @Param('id') id: string,
     @Request() req: { user: User },
@@ -85,7 +121,10 @@ export class DocumentsController {
   }
 
   @Get()
-  async list(@Request() req: { user: User }) {
+  async list(
+    @Query() query: PaginationQueryDto,
+    @Request() req: { user: User },
+  ) {
     return this.documentsService.list(req.user);
   }
 
@@ -103,6 +142,12 @@ export class DocumentsController {
   }
 
   @Get(':id/verify')
+  @ActionLog({
+    action: ActionType.DOCUMENT_VERIFY,
+    entity: 'document',
+    getEntityId: (_, res) => res?.id,
+    getMetadata: (_, res) => res,
+  })
   async verifyIntegrity(@Param('id') id: string) {
     return this.documentsService.verify(id);
   }
@@ -113,6 +158,11 @@ export class DocumentsController {
   }
 
   @Delete(':id')
+  @ActionLog({
+    action: ActionType.DOCUMENT_DELETE,
+    entity: 'document',
+    getEntityId: (_, res) => res?.id,
+  })
   async remove(
     @Param('id') id: string,
     @Request() req: { user: User },

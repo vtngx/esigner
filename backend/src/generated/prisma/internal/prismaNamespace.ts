@@ -388,7 +388,8 @@ export const ModelName = {
   Wallet: 'Wallet',
   UserNonce: 'UserNonce',
   Document: 'Document',
-  Signer: 'Signer'
+  Signer: 'Signer',
+  ActionLog: 'ActionLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "wallet" | "userNonce" | "document" | "signer"
+    modelProps: "user" | "wallet" | "userNonce" | "document" | "signer" | "actionLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -778,6 +779,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ActionLog: {
+      payload: Prisma.$ActionLogPayload<ExtArgs>
+      fields: Prisma.ActionLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ActionLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ActionLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ActionLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ActionLogPayload>
+        }
+        findFirst: {
+          args: Prisma.ActionLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ActionLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ActionLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ActionLogPayload>
+        }
+        findMany: {
+          args: Prisma.ActionLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ActionLogPayload>[]
+        }
+        create: {
+          args: Prisma.ActionLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ActionLogPayload>
+        }
+        createMany: {
+          args: Prisma.ActionLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ActionLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ActionLogPayload>[]
+        }
+        delete: {
+          args: Prisma.ActionLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ActionLogPayload>
+        }
+        update: {
+          args: Prisma.ActionLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ActionLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.ActionLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ActionLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ActionLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ActionLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.ActionLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ActionLogPayload>
+        }
+        aggregate: {
+          args: Prisma.ActionLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateActionLog>
+        }
+        groupBy: {
+          args: Prisma.ActionLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ActionLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ActionLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ActionLogCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -874,6 +949,21 @@ export const SignerScalarFieldEnum = {
 } as const
 
 export type SignerScalarFieldEnum = (typeof SignerScalarFieldEnum)[keyof typeof SignerScalarFieldEnum]
+
+
+export const ActionLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  entity: 'entity',
+  entityId: 'entityId',
+  metadata: 'metadata',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt'
+} as const
+
+export type ActionLogScalarFieldEnum = (typeof ActionLogScalarFieldEnum)[keyof typeof ActionLogScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -976,6 +1066,20 @@ export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'J
  * Reference to a field of type 'QueryMode'
  */
 export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'ActionType'
+ */
+export type EnumActionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActionType'>
+    
+
+
+/**
+ * Reference to a field of type 'ActionType[]'
+ */
+export type ListEnumActionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActionType[]'>
     
 
 
@@ -1092,6 +1196,7 @@ export type GlobalOmitConfig = {
   userNonce?: Prisma.UserNonceOmit
   document?: Prisma.DocumentOmit
   signer?: Prisma.SignerOmit
+  actionLog?: Prisma.ActionLogOmit
 }
 
 /* Types for Logging */

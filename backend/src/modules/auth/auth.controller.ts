@@ -1,7 +1,8 @@
 import { JwtAuthGuard } from './jwt.guard';
 import { AuthService } from './auth.service';
-import { User } from 'src/generated/prisma/client';
+import { ActionType, User } from 'src/generated/prisma/client';
 import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { ActionLog } from 'src/decorators/action-log.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -22,6 +23,12 @@ export class AuthController {
   }
 
   @Post('login')
+  @ActionLog({
+    action: ActionType.USER_LOGIN,
+    entity: 'user',
+    getUserId: (_, res) => res?.id,
+    getEntityId: (_, res) => res?.id,
+  })
   async login(@Body() body: { username: string; password: string }) {
     return this.authService.login(body.username, body.password);
   }

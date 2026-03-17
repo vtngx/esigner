@@ -107,7 +107,10 @@ export class DocumentsService {
         userId: u.id,
       })),
     });
-    return signers;
+    return {
+      id: doc.id,
+      signersCount: signers.count,
+    };
   }
 
   async list(user: User): Promise<(Document & { isOwner?: boolean, isSigner?: boolean })[]> {
